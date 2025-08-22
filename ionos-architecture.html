@@ -1,21 +1,78 @@
-# IONOS Infrastructure Architecture
-
-This repository contains the complete infrastructure setup for a cloud-native WordPress deployment on IONOS Cloud using Kubernetes, with comprehensive monitoring, security, and DevOps practices.
-
-## 🏗️ Architecture Overview
-
-The infrastructure is designed as a multi-layered, highly available system with the following key components:
-
-- **Multi-AZ Kubernetes Cluster** across Frankfurt data centers
-- **Managed PostgreSQL and Redis** databases with replication
-- **IONOS CDN and Load Balancers** for optimal performance
-- **Comprehensive monitoring and logging** with Prometheus and Grafana
-- **Automated CI/CD pipeline** with GitLab and Helm
-- **Infrastructure as Code** using Terraform and Ansible
-
-## 📊 Architecture Diagram
-
-```mermaid
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IONOS Infrastructure Architecture</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            font-weight: 300;
+        }
+        .header p {
+            margin: 10px 0 0 0;
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        .diagram-container {
+            padding: 40px;
+            background: white;
+        }
+        .mermaid {
+            text-align: center;
+        }
+        .footer {
+            background: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            color: #6c757d;
+            border-top: 1px solid #e9ecef;
+        }
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            .header h1 {
+                font-size: 2em;
+            }
+            .diagram-container {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>IONOS Infrastructure Architecture</h1>
+            <p>Complete Cloud-Native WordPress Deployment with Kubernetes</p>
+        </div>
+        
+        <div class="diagram-container">
+            <div class="mermaid">
 graph TB
     %% External Layer
     subgraph "🌐 Internet & CDN Layer"
@@ -243,124 +300,25 @@ graph TB
     class PGPrimary,PGReplica1,PGReplica2,RedisPrimary,RedisReplica1,RedisReplica2,BlockStorage,ObjectStorage,BackupService,DisasterRecovery dataLayer
     class Prometheus,Grafana,LogAggregation,LogAnalysis,AlertManager,Notifications monitoringLayer
     class Terraform,Ansible,GitLab,Helm,Registry devopsLayer
-```
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>IONOS Infrastructure Architecture Diagram | Generated with Mermaid.js</p>
+        </div>
+    </div>
 
-## 🏛️ Infrastructure Components
-
-### 🌐 Internet & CDN Layer
-- **IONOS CDN**: Global content delivery with WAF and DDoS protection
-- **IONOS DNS**: Health checks and automatic failover
-- **Internet Users**: External traffic routing
-
-### 🛡️ Security & Certificate Layer
-- **IONOS Certificate Manager**: Automated SSL/TLS certificate lifecycle management
-- **IONOS DDoS Protection**: Automatic mitigation of distributed attacks
-- **Network Security Groups**: Firewall rules and access control lists
-
-### ⚖️ Load Balancing Layer
-- **IONOS Application Load Balancer**: Layer 7 load balancing with SSL termination
-- **IONOS Network Load Balancer**: Layer 4 load balancing with health checks
-
-### ☸️ Kubernetes Cluster
-- **Control Plane**: Free managed Kubernetes control plane
-- **Worker Nodes**: Multi-AZ deployment across Frankfurt data centers
-- **WordPress Pods**: 6 pods distributed across 3 availability zones
-- **System Components**: HPA, Cluster Autoscaler, and CSI driver
-
-### 🗄️ Data & Storage Layer
-- **PostgreSQL Cluster**: Primary and replica nodes across AZs
-- **Redis Cluster**: Primary and replica nodes for caching
-- **Storage Services**: Block storage and S3-compatible object storage
-- **Backup Services**: Automated encrypted backups with disaster recovery
-
-### 📊 Monitoring & Observability
-- **Prometheus**: Metrics collection and storage
-- **Grafana**: Dashboards and visualization
-- **Logging**: Centralized log aggregation and analysis
-- **Alerting**: Smart routing with multiple notification channels
-
-### 🚀 DevOps & CI/CD Pipeline
-- **Terraform**: Infrastructure as Code with IONOS provider
-- **Ansible**: Configuration management
-- **GitLab CI/CD**: Pipeline automation
-- **Helm**: Application deployment charts
-- **Private Registry**: Container image storage
-
-## 🚀 Quick Start
-
-1. **Clone the repository**:
-   ```bash
-   git clone <repository-url>
-   cd ionos
-   ```
-
-2. **Initialize Terraform**:
-   ```bash
-   cd infrastructure
-   terraform init
-   terraform plan
-   terraform apply
-   ```
-
-3. **Deploy Kubernetes applications**:
-   ```bash
-   cd ../kubernetes
-   kubectl apply -k overlays/dev/
-   ```
-
-## 📁 Project Structure
-
-```
-ionos/
-├── infrastructure/          # Terraform infrastructure code
-├── kubernetes/             # Kubernetes manifests and Kustomize
-│   ├── applications/       # Application deployments
-│   └── infrastructure/     # Infrastructure components
-└── README.md              # This file
-```
-
-## 🔧 Configuration
-
-The infrastructure can be customized through:
-- `infrastructure/terraform.tfvars` - Terraform variables
-- `kubernetes/overlays/` - Environment-specific configurations
-- `kubernetes/applications/` - Application-specific settings
-
-## 📈 Monitoring & Alerts
-
-The monitoring stack provides:
-- Real-time metrics collection
-- Custom dashboards for WordPress performance
-- Automated alerting for critical issues
-- Log aggregation and analysis
-
-## 🔒 Security Features
-
-- Automated SSL/TLS certificate management
-- DDoS protection and mitigation
-- Network security groups and firewall rules
-- Encrypted backups and storage
-- Multi-AZ redundancy for high availability
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Test thoroughly
-5. Submit a pull request
-
-## 📄 License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## 🆘 Support
-
-For issues and questions:
-- Create an issue in this repository
-- Check the IONOS documentation
-- Review the troubleshooting guide
-
----
-
-**Note**: This architecture is designed for production use with IONOS Cloud services. Ensure you have the necessary IONOS account and permissions before deployment.
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default',
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true,
+                curve: 'basis'
+            },
+            securityLevel: 'loose'
+        });
+    </script>
+</body>
+</html> 
