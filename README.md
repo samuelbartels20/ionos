@@ -128,7 +128,7 @@ graph TB
         end
         
         subgraph "CI/CD Pipeline"
-            GitLab[GitLab CI/CD<br/>Pipeline Automation]
+            GitHubActions[GitHub Actions<br/>Pipeline Automation]
             Helm[Helm Charts<br/>Application Deployment]
             Registry[IONOS Private Registry<br/>Container Images]
         end
@@ -221,7 +221,7 @@ graph TB
     Ansible -.-> Node1
     Ansible -.-> Node2
     Ansible -.-> Node3
-    GitLab --> Registry
+    GitHubActions --> Registry
     Helm --> K8sAPI
     Registry --> Node1
     Registry --> Node2
