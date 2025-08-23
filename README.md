@@ -6,12 +6,13 @@ This repository contains the complete infrastructure setup for a cloud-native Wo
 
 The infrastructure is designed as a multi-layered, highly available system with the following key components:
 
-- **Multi-AZ Kubernetes Cluster** across Frankfurt data centers
-- **Managed PostgreSQL and Redis** databases with replication
+- **Kubernetes Cluster** across Frankfurt data centers
+- **Managed MariaDB and Redis** databases with replication
 - **IONOS CDN and Load Balancers** for optimal performance
 - **Comprehensive monitoring and logging** with Prometheus and Grafana
-- **Automated CI/CD pipeline** with GitLab and Helm
-- **Infrastructure as Code** using Terraform and Ansible
+- **Automated CI/CD pipeline** with Github actions and Helm
+- **Infrastructure as Code** using Terraform
+- **GitOps** with FluxCD
 
 ## Architecture Diagram
 
