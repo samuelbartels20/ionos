@@ -327,8 +327,74 @@ graph TB
     Registry --> Node3
 ```
 
-## Kubernetes infrastructure overview
+## Observability infrastructure overview
 
+graph TB
+    subgraph "Users/DevOps"
+        Users
+    end
+
+    subgraph "Kubernetes Cluster"
+        subgraph "Applications"
+            Apps
+        end
+
+        subgraph "Observability Stack"
+            Prometheus
+            KubeStateMetrics
+            OtelCollector
+            Alloy
+
+            subgraph "Storage Layer"
+                Loki
+                Tempo
+                Mimir
+            end
+
+            Grafana
+        end
+
+        subgraph "Dashboards"
+            K8sDashboards
+        end
+    end
+
+    subgraph "Cloud Storage"
+        LogsStorage
+        TracesStorage
+        MetricsStorage
+    end
+
+    %% Data Flow
+    Apps -->|"Get custom metrics"| Prometheus
+    Prometheus -->|"Get Cluster/Pods<br/>Metrics"| KubeStateMetrics
+    Apps -->|"Traces/Logs/Metrics"| OtelCollector
+    Apps -->|"Container Logs"| Alloy
+
+    OtelCollector -->|"Push logging data"| Loki
+    OtelCollector -->|"Push metrics data"| Mimir
+    OtelCollector -->|"Push traces data"| Tempo
+    Alloy -->|"Push logging data"| Loki
+    Prometheus -->|"Metrics"| Mimir
+    KubeStateMetrics -->|"Metrics"| Mimir
+
+    Loki --> LogsStorage
+    Tempo --> TracesStorage
+    Mimir --> MetricsStorage
+
+    Grafana --> K8sDashboards
+    Users --> Grafana
+
+    subgraph "Cloud Storage"
+        LogsStorage
+        TracesStorage
+        MetricsStorage
+    end
+
+    %% Data source connections
+    MetricsStorage --> Grafana
+    TracesStorage --> Grafana
+    LogsStorage --> Grafana
 
 
 ## 🏛️ Infrastructure Components
