@@ -153,7 +153,7 @@ resource "ionoscloud_k8s_nodepool" "application" {
 }
 
 # Monitoring Node Pool (for observability workloads)
-resource "ionoscloud_k8s_nodepool" "monitoring" {
+resource "ionoscloud_k8s_nodepool" "observability" {
   datacenter_id  = ionoscloud_datacenter.main.id
   k8s_cluster_id = ionoscloud_k8s_cluster.main.id
   
@@ -179,12 +179,12 @@ resource "ionoscloud_k8s_nodepool" "monitoring" {
   ram_size         = var.monitoring_nodepool_ram
   
   labels = {
-    "node-type" = "monitoring"
-    "workload"  = "monitoring"
+    "node-type" = "observability"
+    "workload"  = "observability"
   }
   
   annotations = {
-    "cluster.ionos.com/node-pool-type" = "monitoring"
+    "cluster.ionos.com/node-pool-type" = "observability"
   }
 }
 
@@ -338,15 +338,15 @@ resource "kubernetes_namespace" "wordpress" {
   depends_on = [ionoscloud_k8s_nodepool.application]
 }
 
-resource "kubernetes_namespace" "monitoring" {
+resource "kubernetes_namespace" "observability" {
   metadata {
-    name = "monitoring"
+    name = "observability"
     labels = {
-      "app.kubernetes.io/name" = "monitoring"
+      "app.kubernetes.io/name" = "observability"
     }
   }
   
-  depends_on = [ionoscloud_k8s_nodepool.monitoring]
+  depends_on = [ionoscloud_k8s_nodepool.observability]
 }
 
 resource "kubernetes_namespace" "ingress_nginx" {
