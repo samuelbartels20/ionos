@@ -2,7 +2,7 @@
 
 This repository contains the complete infrastructure setup for a cloud-native WordPress deployment on IONOS Cloud using Kubernetes, with comprehensive monitoring, security, and DevOps practices.
 
-## 🏗️ Architecture Overview
+## Architecture Overview
 
 The infrastructure is designed as a multi-layered, highly available system with the following key components:
 
@@ -13,7 +13,7 @@ The infrastructure is designed as a multi-layered, highly available system with 
 - **Automated CI/CD pipeline** with GitLab and Helm
 - **Infrastructure as Code** using Terraform and Ansible
 
-## 📊 Architecture Diagram
+## Architecture Diagram
 
 ### High-Level Infrastructure Flow
 
@@ -91,6 +91,25 @@ flowchart TD
     class Backup backup;
     class User user;
 ```
+A User's request is first resolved by Cloud DNS to find the correct IP address.
+
+The request hits the CDN first. If the resource is cached (like an image), it's served directly back to the user.
+
+For dynamic page requests (like a WordPress post), the request passes through the Network Security Group (firewall), which only allows HTTPS traffic.
+
+The request reaches the Managed Kubernetes cluster running the WordPress pods.
+
+WordPress in Kubernetes connects to the Managed MariaDB to fetch data and uses Object Storage for any media files.
+
+Management & Observability Flow (Dotted Lines):
+
+The Certificate Manager provides SSL certificates to both the CDN and the Kubernetes pods to enable HTTPS encryption.
+
+The Kubernetes application and the MariaDB database continuously send metrics and logs to the Monitoring and Logging services.
+
+Both systems are backed up to the Backup Unit Manager.
+
+Administrative actions and firewall events are recorded in the Activity Log.
 
 ### Detailed Kubernetes Architecture
 
