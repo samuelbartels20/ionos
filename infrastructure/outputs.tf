@@ -60,9 +60,9 @@ output "kubeconfig_file_path" {
 }
 
 # Database Password
-output "mysql_root_password" {
-  description = "The root password for MySQL database"
-  value       = random_password.mysql_root_password.result
+output "mariadb_password" {
+  description = "The password for MariaDB database"
+  value       = random_password.mariadb_password.result
   sensitive   = true
 }
 

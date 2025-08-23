@@ -54,28 +54,28 @@ monitoring_nodepool_cores        = 4
 monitoring_nodepool_ram          = 8192
 monitoring_nodepool_storage_size = 100
 
-# PostgreSQL Database Configuration
-postgres_version      = "15"
-postgres_instances    = 2
-postgres_cores        = 2
-postgres_ram          = 4
-postgres_storage_size = 100
-postgres_username     = "wordpress"
+# MariaDB Database Configuration
+mariadb_version      = "11.0"
+mariadb_instances    = 2
+mariadb_cores        = 2
+mariadb_ram          = 4
+mariadb_storage_size = 100
+mariadb_username     = "wordpress"
 
 # Redis Configuration
 redis_version = "7.0"
-redis_cores   = 1
-redis_ram     = 2
+redis_cores   = 4
+redis_ram     = 8
 redis_username = "redis"
 
 # Backup Configuration
-backup_email = "admin@example.com"  # TODO: Update with your email
-s3_region    = "eu-central-3"
+backup_email = "bartelssamuel20@gmail.com"
+s3_region    = "de/fra"
 
 # Common Tags
 common_tags = {
   Environment = "prod"
-  Project     = "ionos-web-app"
+  Project     = "ionos-wp-app"
   ManagedBy   = "terraform"
   Owner       = "platform-team"
   CostCenter  = "engineering"

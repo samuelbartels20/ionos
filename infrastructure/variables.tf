@@ -272,39 +272,39 @@ variable "common_tags" {
   }
 }
 
-# PostgreSQL Database Configuration
-variable "postgres_version" {
-  description = "PostgreSQL version"
+# MariaDB Database Configuration
+variable "mariadb_version" {
+  description = "MariaDB version"
   type        = string
-  default     = "15"
+  default     = "11.0"
 }
 
-variable "postgres_instances" {
-  description = "Number of PostgreSQL instances"
+variable "mariadb_instances" {
+  description = "Number of MariaDB instances"
   type        = number
   default     = 2
 }
 
-variable "postgres_cores" {
-  description = "Number of cores for PostgreSQL"
+variable "mariadb_cores" {
+  description = "Number of cores for MariaDB"
   type        = number
   default     = 2
 }
 
-variable "postgres_ram" {
-  description = "RAM size in GB for PostgreSQL"
+variable "mariadb_ram" {
+  description = "RAM size in GB for MariaDB"
   type        = number
   default     = 4
 }
 
-variable "postgres_storage_size" {
-  description = "Storage size in GB for PostgreSQL"
+variable "mariadb_storage_size" {
+  description = "Storage size in GB for MariaDB"
   type        = number
   default     = 100
 }
 
-variable "postgres_username" {
-  description = "PostgreSQL database username"
+variable "mariadb_username" {
+  description = "MariaDB database username"
   type        = string
   default     = "wordpress"
 }

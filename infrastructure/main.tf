@@ -5,8 +5,8 @@ resource "random_password" "mysql_root_password" {
   special = true
 }
 
-# Random password for PostgreSQL
-resource "random_password" "postgresql_password" {
+# Random password for MariaDB
+resource "random_password" "mariadb_password" {
   length  = 16
   special = true
 }
@@ -146,33 +146,34 @@ resource "ionoscloud_k8s_nodepool" "observability" {
   }
 }
 
-# IONOS Managed PostgreSQL Database for WordPress
-resource "ionoscloud_pg_cluster" "wordpress_db" {
-  postgres_version     = var.postgres_version
-  instances            = var.postgres_instances
-  cores                = var.postgres_cores
-  ram                  = var.postgres_ram
-  storage_size         = var.postgres_storage_size
-  storage_type         = "SSD_PREMIUM"
-  location             = var.datacenter_location
+# IONOS Managed MariaDB Database for WordPress
+resource "ionoscloud_mariadb_cluster" "wordpress_db" {
+  mariadb_version = var.mariadb_version
+  instances      = var.mariadb_instances
+  cores          = var.mariadb_cores
+  ram            = var.mariadb_ram
+  storage_size   = var.mariadb_storage_size
+  location       = var.datacenter_location
   
-  display_name = "${var.cluster_name}-postgres"
+  display_name = "${var.cluster_name}-mariadb"
   
   credentials {
-    username = var.postgres_username
-    password = random_password.postgresql_password.result
+    username = var.mariadb_username
+    password = random_password.mariadb_password.result
   }
   
-  synchronization_mode = "ASYNCHRONOUS"
-  
-  backup_location = var.datacenter_location
+  connections {
+    datacenter_id = ionoscloud_datacenter.main.id
+    lan_id        = ionoscloud_lan.private.id
+    cidr          = "192.168.1.0/24"
+  }
   
   maintenance_window {
     day_of_the_week = var.maintenance_day
     time           = var.maintenance_time
   }
   
-  depends_on = [ionoscloud_datacenter.main]
+  depends_on = [ionoscloud_datacenter.main, ionoscloud_lan.private]
 }
 
 # IONOS Managed Redis (In-Memory DB) for caching
@@ -407,23 +408,23 @@ resource "kubernetes_storage_class" "hdd" {
 }
 
 # Database connection secrets
-resource "kubernetes_secret" "postgres_credentials" {
+resource "kubernetes_secret" "mariadb_credentials" {
   metadata {
-    name      = "postgres-credentials"
+    name      = "mariadb-credentials"
     namespace = kubernetes_namespace.wordpress.metadata[0].name
   }
   
   type = "Opaque"
   
   data = {
-    "host"     = ionoscloud_pg_cluster.wordpress_db.dns_name
-    "port"     = "5432"
+    "host"     = ionoscloud_mariadb_cluster.wordpress_db.dns_name
+    "port"     = "3306"
     "database" = "wordpress"
-    "username" = var.postgres_username
-    "password" = random_password.postgresql_password.result
+    "username" = var.mariadb_username
+    "password" = random_password.mariadb_password.result
   }
   
-  depends_on = [ionoscloud_pg_cluster.wordpress_db]
+  depends_on = [ionoscloud_mariadb_cluster.wordpress_db]
 }
 
 resource "kubernetes_secret" "redis_credentials" {
