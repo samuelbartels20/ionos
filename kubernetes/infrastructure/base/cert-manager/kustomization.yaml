@@ -3,10 +3,7 @@ kind: Kustomization
 
 resources:
   - namespace.yaml
-  - repository.yaml
   - helmrelease.yaml
   - cluster-issuer.yaml
 
-commonLabels:
-  app.kubernetes.io/name: cert-manager
-  app.kubernetes.io/component: certificate-management 
+namespace: cert-manager 

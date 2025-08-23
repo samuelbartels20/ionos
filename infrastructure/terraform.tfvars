@@ -23,12 +23,13 @@ api_subnet_allow_list = ["0.0.0.0/0"]
 
 # Git Configuration for FluxCD
 git_repository_url = "ssh://git@github.com/samuelbartels20/ionos.git"
+# TODO: Add your SSH keys here after generating them
 # git_private_key = "-----BEGIN OPENSSH PRIVATE KEY-----\n...\n-----END OPENSSH PRIVATE KEY-----"
 # git_public_key = "ssh-rsa AAAAB3NzaC1yc2E..."
 
 # Node Pool Configuration - System
 system_nodepool_min_nodes    = 1
-system_nodepool_max_nodes    = 2
+system_nodepool_max_nodes    = 3
 system_nodepool_node_count   = 2
 system_nodepool_cpu_family   = "INTEL_SKYLAKE"
 system_nodepool_cores        = 2
@@ -52,6 +53,24 @@ monitoring_nodepool_cpu_family   = "INTEL_SKYLAKE"
 monitoring_nodepool_cores        = 4
 monitoring_nodepool_ram          = 8192
 monitoring_nodepool_storage_size = 100
+
+# PostgreSQL Database Configuration
+postgres_version      = "15"
+postgres_instances    = 2
+postgres_cores        = 2
+postgres_ram          = 4
+postgres_storage_size = 100
+postgres_username     = "wordpress"
+
+# Redis Configuration
+redis_version = "7.0"
+redis_cores   = 1
+redis_ram     = 2
+redis_username = "redis"
+
+# Backup Configuration
+backup_email = "admin@example.com"  # TODO: Update with your email
+s3_region    = "eu-central-3"
 
 # Common Tags
 common_tags = {

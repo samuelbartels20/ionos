@@ -258,3 +258,78 @@ variable "common_tags" {
     Owner       = "platform-team"
   }
 }
+
+# PostgreSQL Database Configuration
+variable "postgres_version" {
+  description = "PostgreSQL version"
+  type        = string
+  default     = "15"
+}
+
+variable "postgres_instances" {
+  description = "Number of PostgreSQL instances"
+  type        = number
+  default     = 2
+}
+
+variable "postgres_cores" {
+  description = "Number of cores for PostgreSQL"
+  type        = number
+  default     = 2
+}
+
+variable "postgres_ram" {
+  description = "RAM size in GB for PostgreSQL"
+  type        = number
+  default     = 4
+}
+
+variable "postgres_storage_size" {
+  description = "Storage size in GB for PostgreSQL"
+  type        = number
+  default     = 100
+}
+
+variable "postgres_username" {
+  description = "PostgreSQL database username"
+  type        = string
+  default     = "wordpress"
+}
+
+# Redis Configuration
+variable "redis_version" {
+  description = "Redis version"
+  type        = string
+  default     = "7.0"
+}
+
+variable "redis_cores" {
+  description = "Number of cores for Redis"
+  type        = number
+  default     = 1
+}
+
+variable "redis_ram" {
+  description = "RAM size in GB for Redis"
+  type        = number
+  default     = 2
+}
+
+variable "redis_username" {
+  description = "Redis username"
+  type        = string
+  default     = "redis"
+}
+
+# Backup Configuration
+variable "backup_email" {
+  description = "Email for backup notifications"
+  type        = string
+  default     = "admin@example.com"
+}
+
+variable "s3_region" {
+  description = "S3 region for backup bucket"
+  type        = string
+  default     = "eu-central-3"
+}

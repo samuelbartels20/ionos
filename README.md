@@ -228,6 +228,81 @@ graph TB
     Registry --> Node3
 ```
 
+## Kubernetes infrastructure overview
+
+flowchart TD
+    %% Define styles for different categories
+    classDef compute fill:#6c5ce7,color:white;
+    classDef database fill:#00b894,color:white;
+    classDef performance fill:#fd79a8,color:white;
+    classDef security fill:#e17055,color:white;
+    classDef storage fill:#0984e3,color:white;
+    classDef monitoring fill:#fdcb6e,color:black;
+    classDef backup fill:#636e72,color:white;
+    classDef user fill:#dfe6e9,color:black;
+
+    %% User and Internet
+    User[🌍 User / Internet]
+
+    %% Performance Group
+    CDN[<i class='fa fa-network-wired'></i> CDN]
+    CloudDNS[<i class='fa fa-globe'></i> Cloud DNS]
+
+    %% Security Group
+    CertManager[<i class='fa fa-lock'></i> Certificate Manager]
+    NetSecGroup[<i class='fa fa-shield-alt'></i> Network Security Group]
+
+    %% Compute Group
+    K8s[<i class='fa fa-cubes'></i> Managed Kubernetes<br/>WordPress Pods]
+
+    %% Database Group
+    DB[<i class='fa fa-database'></i> Managed MariaDB]
+
+    %% Storage Group
+    ObjectStorage[<i class='fa fa-bars'></i> Object Storage]
+
+    %% Monitoring Group
+    Monitor[<i class='fa fa-chart-line'></i> Monitoring Service]
+    Logger[<i class='fa fa-scroll'></i> Logging Service]
+    ActivityLog[<i class='fa fa-list-alt'></i> Activity Log]
+
+    %% Backup Group
+    Backup[<i class='fa fa-save'></i> Backup Unit Manager]
+
+    %% Define the traffic flow
+    User --> CloudDNS
+    CloudDNS --> CDN
+
+    CDN -- Cached Requests<br/>(Images, CSS, JS) --> User
+    CDN -- Dynamic Requests --> NetSecGroup
+
+    NetSecGroup -- HTTPS Traffic --> K8s
+    K8s -- Read/Write Data --> DB
+    K8s -- Offload & Serve Media --> ObjectStorage
+
+    %% Define the management and observability flow
+    CertManager -. Provides SSL Certs .-> CDN
+    CertManager -. Provides SSL Certs .-> K8s
+
+    K8s -- Sends Metrics --> Monitor
+    K8s -- Sends Logs --> Logger
+    K8s -- System Backup --> Backup
+
+    DB -- Sends Metrics & Logs --> Monitor
+    DB -- Database Backup --> Backup
+
+    NetSecGroup -- Audit Logs --> ActivityLog
+
+    %% Apply styling to the nodes
+    class K8s compute;
+    class DB database;
+    class CDN,CloudDNS performance;
+    class CertManager,NetSecGroup security;
+    class ObjectStorage storage;
+    class Monitor,Logger,ActivityLog monitoring;
+    class Backup backup;
+    class User user;
+
 ## 🏛️ Infrastructure Components
 
 ### 🌐 Internet & CDN Layer

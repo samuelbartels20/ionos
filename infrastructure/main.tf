@@ -47,6 +47,18 @@ resource "random_password" "mysql_root_password" {
   special = true
 }
 
+# Random password for PostgreSQL
+resource "random_password" "postgresql_password" {
+  length  = 16
+  special = true
+}
+
+# Random password for Redis
+resource "random_password" "redis_password" {
+  length  = 16
+  special = true
+}
+
 # Data Center
 resource "ionoscloud_datacenter" "main" {
   name        = var.datacenter_name
@@ -66,7 +78,6 @@ resource "ionoscloud_k8s_cluster" "main" {
   }
 
   api_subnet_allow_list = var.api_subnet_allow_list
-  s3_buckets            = var.s3_buckets
 }
 
 # System Node Pool (for system workloads)
@@ -177,6 +188,117 @@ resource "ionoscloud_k8s_nodepool" "monitoring" {
   }
 }
 
+# IONOS Managed PostgreSQL Database for WordPress
+resource "ionoscloud_pg_cluster" "wordpress_db" {
+  postgres_version     = var.postgres_version
+  instances            = var.postgres_instances
+  cores                = var.postgres_cores
+  ram                  = var.postgres_ram
+  storage_size         = var.postgres_storage_size
+  storage_type         = "SSD_PREMIUM"
+  location             = var.datacenter_location
+  
+  display_name = "${var.cluster_name}-postgres"
+  
+  credentials {
+    username = var.postgres_username
+    password = random_password.postgresql_password.result
+  }
+  
+  synchronization_mode = "ASYNCHRONOUS"
+  
+  backup_location = var.datacenter_location
+  
+  maintenance_window {
+    day_of_the_week = var.maintenance_day
+    time           = var.maintenance_time
+  }
+  
+  depends_on = [ionoscloud_datacenter.main]
+}
+
+# IONOS Managed Redis (In-Memory DB) for caching
+resource "ionoscloud_inmemorydb_replicaset" "redis_cache" {
+  location         = var.datacenter_location
+  display_name     = "${var.cluster_name}-redis"
+  version          = var.redis_version
+  replicas         = 1
+  persistence_mode = "RDB"
+  eviction_policy  = "allkeys-lru"
+  
+  resources {
+    cores = var.redis_cores
+    ram   = var.redis_ram
+  }
+  
+  credentials {
+    username = var.redis_username
+  }
+  
+  connections {
+    datacenter_id = ionoscloud_datacenter.main.id
+    lan_id        = ionoscloud_lan.private.id
+    cidr          = "192.168.1.0/24"
+  }
+  
+  maintenance_window {
+    day_of_the_week = var.maintenance_day
+    time           = var.maintenance_time
+  }
+  
+  depends_on = [ionoscloud_datacenter.main, ionoscloud_lan.private]
+}
+
+# Application Load Balancer for WordPress
+resource "ionoscloud_application_loadbalancer" "wordpress_alb" {
+  datacenter_id = ionoscloud_datacenter.main.id
+  name         = "${var.cluster_name}-wordpress-alb"
+  listener_lan = 1
+  target_lan   = 2
+  
+  depends_on = [ionoscloud_datacenter.main]
+}
+
+# Network Load Balancer for Kubernetes Ingress
+resource "ionoscloud_networkloadbalancer" "k8s_nlb" {
+  datacenter_id = ionoscloud_datacenter.main.id
+  name         = "${var.cluster_name}-k8s-nlb"
+  listener_lan = 1
+  target_lan   = 2
+  
+  depends_on = [ionoscloud_datacenter.main]
+}
+
+# LAN for load balancer communication
+resource "ionoscloud_lan" "public" {
+  datacenter_id = ionoscloud_datacenter.main.id
+  public        = true
+  name          = "${var.cluster_name}-public-lan"
+}
+
+resource "ionoscloud_lan" "private" {
+  datacenter_id = ionoscloud_datacenter.main.id
+  public        = false
+  name          = "${var.cluster_name}-private-lan"
+}
+
+# Backup Service Configuration
+resource "ionoscloud_backup_unit" "main" {
+  name     = "${var.cluster_name}-backup-unit"
+  password = random_password.mysql_root_password.result
+  email    = var.backup_email
+}
+
+# Object Storage bucket for backups
+resource "ionoscloud_s3_bucket" "backup_bucket" {
+  name   = "${var.cluster_name}-backups-${random_id.bucket_suffix.hex}"
+  region = var.s3_region
+}
+
+resource "random_id" "bucket_suffix" {
+  byte_length = 4
+}
+
 # Configure Kubernetes provider
 provider "kubernetes" {
   host                   = ionoscloud_k8s_cluster.main.kube_config.0.host
@@ -227,6 +349,28 @@ resource "kubernetes_namespace" "monitoring" {
   depends_on = [ionoscloud_k8s_nodepool.monitoring]
 }
 
+resource "kubernetes_namespace" "ingress_nginx" {
+  metadata {
+    name = "ingress-nginx"
+    labels = {
+      "app.kubernetes.io/name" = "ingress-nginx"
+    }
+  }
+  
+  depends_on = [ionoscloud_k8s_nodepool.system]
+}
+
+resource "kubernetes_namespace" "cert_manager" {
+  metadata {
+    name = "cert-manager"
+    labels = {
+      "app.kubernetes.io/name" = "cert-manager"
+    }
+  }
+  
+  depends_on = [ionoscloud_k8s_nodepool.system]
+}
+
 resource "kubernetes_namespace" "security" {
   metadata {
     name = "security"
@@ -270,6 +414,23 @@ resource "kubernetes_storage_class" "ssd" {
   depends_on = [ionoscloud_k8s_nodepool.system]
 }
 
+resource "kubernetes_storage_class" "ssd_premium" {
+  metadata {
+    name = "ionos-ssd-premium"
+  }
+  
+  storage_provisioner    = "cloud.ionos.com/csi-driver"
+  reclaim_policy         = "Retain"
+  volume_binding_mode    = "WaitForFirstConsumer"
+  allow_volume_expansion = true
+  
+  parameters = {
+    "type" = "SSD_PREMIUM"
+  }
+  
+  depends_on = [ionoscloud_k8s_nodepool.system]
+}
+
 resource "kubernetes_storage_class" "hdd" {
   metadata {
     name = "ionos-hdd"
@@ -287,19 +448,57 @@ resource "kubernetes_storage_class" "hdd" {
   depends_on = [ionoscloud_k8s_nodepool.system]
 }
 
+# Database connection secrets
+resource "kubernetes_secret" "postgres_credentials" {
+  metadata {
+    name      = "postgres-credentials"
+    namespace = kubernetes_namespace.wordpress.metadata[0].name
+  }
+  
+  type = "Opaque"
+  
+  data = {
+    "host"     = ionoscloud_pg_cluster.wordpress_db.dns_name
+    "port"     = "5432"
+    "database" = "wordpress"
+    "username" = var.postgres_username
+    "password" = random_password.postgresql_password.result
+  }
+  
+  depends_on = [ionoscloud_pg_cluster.wordpress_db]
+}
+
+resource "kubernetes_secret" "redis_credentials" {
+  metadata {
+    name      = "redis-credentials"
+    namespace = kubernetes_namespace.wordpress.metadata[0].name
+  }
+  
+  type = "Opaque"
+  
+  data = {
+    "host"     = ionoscloud_inmemorydb_replicaset.redis_cache.dns_name
+    "port"     = "6379"
+    "username" = var.redis_username
+    "password" = random_password.redis_password.result
+  }
+  
+  depends_on = [ionoscloud_inmemorydb_replicaset.redis_cache]
+}
+
 # Install Flux CD
 resource "helm_release" "flux" {
   name       = "flux2"
   repository = "https://fluxcd-community.github.io/helm-charts"
   chart      = "flux2"
-  version    = "2.12.1"
+  version    = "2.12.4"
   namespace  = kubernetes_namespace.flux_system.metadata[0].name
   
   values = [
     yamlencode({
       installCRDs = true
       cli = {
-        image = "ghcr.io/fluxcd/flux-cli:v2.2.2"
+        image = "ghcr.io/fluxcd/flux-cli:v2.2.3"
       }
       controllers = {
         source = {
@@ -389,7 +588,7 @@ resource "kubernetes_manifest" "flux_infrastructure" {
     }
     spec = {
       interval = "10m"
-      path     = "./kubernetes/infrastructure"
+      path     = "./kubernetes/infrastructure/production"
       prune    = true
       sourceRef = {
         kind = "GitRepository"
@@ -402,6 +601,12 @@ resource "kubernetes_manifest" "flux_infrastructure" {
           kind       = "Deployment"
           name       = "cert-manager"
           namespace  = "cert-manager"
+        },
+        {
+          apiVersion = "apps/v1"
+          kind       = "Deployment"
+          name       = "ingress-nginx-controller"
+          namespace  = "ingress-nginx"
         }
       ]
     }
@@ -421,7 +626,7 @@ resource "kubernetes_manifest" "flux_applications" {
     }
     spec = {
       interval = "10m"
-      path     = "./kubernetes/applications"
+      path     = "./kubernetes/applications/production"
       prune    = true
       sourceRef = {
         kind = "GitRepository"
