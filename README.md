@@ -429,20 +429,20 @@ flowchart TD
 - **Storage Services**: Block storage and S3-compatible object storage
 - **Backup Services**: Automated encrypted backups with disaster recovery
 
-### 📊 Monitoring & Observability
+###  Monitoring & Observability
 - **Prometheus**: Metrics collection and storage
 - **Grafana**: Dashboards and visualization
 - **Logging**: Centralized log aggregation and analysis
 - **Alerting**: Smart routing with multiple notification channels
 
-### 🚀 DevOps & CI/CD Pipeline
+###  DevOps & CI/CD Pipeline
 - **Terraform**: Infrastructure as Code with IONOS provider
 - **Ansible**: Configuration management
 - **GitLab CI/CD**: Pipeline automation
 - **Helm**: Application deployment charts
 - **Private Registry**: Container image storage
 
-## 🚀 Quick Start
+##  Quick Start
 
 1. **Clone the repository**:
    ```bash
@@ -475,14 +475,14 @@ ionos/
 └── README.md              # This file
 ```
 
-## 🔧 Configuration
+##  Configuration
 
 The infrastructure can be customized through:
 - `infrastructure/terraform.tfvars` - Terraform variables
 - `kubernetes/overlays/` - Environment-specific configurations
 - `kubernetes/applications/` - Application-specific settings
 
-## 📈 Monitoring & Alerts
+##  Monitoring & Alerts
 
 The monitoring stack provides:
 - Real-time metrics collection
@@ -490,7 +490,7 @@ The monitoring stack provides:
 - Automated alerting for critical issues
 - Log aggregation and analysis
 
-## 🔒 Security Features
+##  Security Features
 
 - Automated SSL/TLS certificate management
 - DDoS protection and mitigation
@@ -498,25 +498,3 @@ The monitoring stack provides:
 - Encrypted backups and storage
 - Multi-AZ redundancy for high availability
 
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Test thoroughly
-5. Submit a pull request
-
-## 📄 License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## 🆘 Support
-
-For issues and questions:
-- Create an issue in this repository
-- Check the IONOS documentation
-- Review the troubleshooting guide
-
----
-
-**Note**: This architecture is designed for production use with IONOS Cloud services. Ensure you have the necessary IONOS account and permissions before deployment.
