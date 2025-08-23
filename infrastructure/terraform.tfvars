@@ -8,11 +8,11 @@ key         = "prod/terraform.tfstate"
 
 # Infrastructure Configuration
 datacenter_name     = "ionos-k8s-prod"
-datacenter_location = "de/fra/2"
+datacenter_location = "de/fra"
 cluster_name        = "ionos-k8s-cluster"
 kubernetes_version  = "1.28.5"
 environment         = "prod"
-project_name        = "ionos-web-app"
+project_name        = "ionos-wp-app"
 
 # Maintenance Window
 maintenance_day  = "Sunday"
