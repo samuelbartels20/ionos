@@ -1,4 +1,4 @@
-# S3 Backend Configuration
+  # S3 Backend Configuration
 variable "access_key" {
   description = "The access key for the S3 backend"
   type        = string
@@ -7,6 +7,19 @@ variable "access_key" {
 
 variable "secret_key" {
   description = "The secret key for the S3 backend"
+  type        = string
+  default     = ""
+  sensitive   = true
+}
+
+variable "ionos_username" {
+  description = "The username for the IONOS Cloud"
+  type        = string
+  default     = ""
+}
+
+variable "ionos_password" {
+  description = "The password for the IONOS Cloud"
   type        = string
   default     = ""
   sensitive   = true
