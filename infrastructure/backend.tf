@@ -1,16 +1,19 @@
 
 terraform {
-  backend "s3" {
-    bucket                      = "ionos-backend"
-    key                         = "wordpress-platform/terraform.tfstate"
-    region                      = "de"
-    endpoint                    = "https://S3-eu-central-1.ionoscloud.com"
+backend "s3" {
+    bucket = "ionos-backend"
+    key    = "wordpress-platform/terraform.tfstate"
+    region = "de/fra"
+
+    endpoints = {
+      s3 = "https://s3-eu-central-1.ionoscloud.com"
+    }
+    
     skip_credentials_validation = true
     skip_metadata_api_check     = true
     skip_region_validation      = true
-    force_path_style           = true
-  }
-  
+    skip_requesting_account_id = true
+}
   required_providers {
     ionos = {
       source  = "ionos-cloud/ionos"
@@ -25,4 +28,10 @@ terraform {
       version = "~> 2.11"
     }
   }
+}
+
+# Configure the IONOS Cloud Provider
+provider "ionoscloud" {
+  username = var.ionos_username
+  password = var.ionos_password
 }

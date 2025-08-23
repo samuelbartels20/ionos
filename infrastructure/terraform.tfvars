@@ -1,6 +1,6 @@
 # S3 Backend Configuration
-access_key  = "EAAAAAFr6Cz6JvtI_ZpDK-jtzgbHMDJSD9KnUx6cPbSYOOuhdAAAAAEB5scTAAAAAAHmxxO0zCspoNB2GIPLUEjvDTZ2"
-secret_key  = "NWN4iuePFXgl2Bf8Lg6xzLCYPgNegiR3/CObkw/1r1NX76F+MxYzNAsaKZ3ruWl4"
+access_key  = ""
+secret_key  = ""
 bucket_name = "ionos-backend"
 region      = "de"
 endpoint    = "https://s3-eu-central-1.ionoscloud.com"
