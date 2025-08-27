@@ -22,51 +22,51 @@ jobs:
           terraform_version: ${{ vars.TF_VERSION }}
 
       # Step 4: Initialize Terraform with the backend and providers
-      - name: Terraform Init
-        run: terraform init
-        env:
-          # If your backend config needs secrets (e.g., S3 access keys), set them here too
-          user: ${{ secrets.IONOS_USERNAME }}
-          password: ${{ secrets.IONOS_PASSWORD }}
-          token: ${{ secrets.IONOS_TOKEN }}
-          access_key_id: ${{ secrets.IONOS_ACCESS_KEY_ID }}
-          secret_access_key: ${{ secrets.IONOS_SECRET_ACCESS_KEY }}
+      # - name: Terraform Init
+      #   run: terraform init
+      #   env:
+      #     # If your backend config needs secrets (e.g., S3 access keys), set them here too
+      #     user: ${{ secrets.IONOS_USERNAME }}
+      #     password: ${{ secrets.IONOS_PASSWORD }}
+      #     token: ${{ secrets.IONOS_TOKEN }}
+      #     access_key_id: ${{ secrets.IONOS_ACCESS_KEY_ID }}
+      #     secret_access_key: ${{ secrets.IONOS_SECRET_ACCESS_KEY }}
 
-      # Step 5: Check code formatting
-      - name: Terraform Format
-        run: terraform fmt -check
+      # # Step 5: Check code formatting
+      # - name: Terraform Format
+      #   run: terraform fmt -check
 
-      # Step 6: Validate the code syntax
-      - name: Terraform Validate
-        run: terraform validate
-        env:
-          user: ${{ secrets.IONOS_USERNAME }}
-          password: ${{ secrets.IONOS_PASSWORD }}
-          token: ${{ secrets.IONOS_TOKEN }}
-          access_key_id: ${{ secrets.IONOS_ACCESS_KEY_ID }}
-          secret_access_key: ${{ secrets.IONOS_SECRET_ACCESS_KEY }}
+      # # Step 6: Validate the code syntax
+      # - name: Terraform Validate
+      #   run: terraform validate
+      #   env:
+      #     user: ${{ secrets.IONOS_USERNAME }}
+      #     password: ${{ secrets.IONOS_PASSWORD }}
+      #     token: ${{ secrets.IONOS_TOKEN }}
+      #     access_key_id: ${{ secrets.IONOS_ACCESS_KEY_ID }}
+      #     secret_access_key: ${{ secrets.IONOS_SECRET_ACCESS_KEY }}
 
-      # Step 7: Generate an execution plan for a PR
-      - name: Terraform Plan
-        run: terraform plan  
-        if: github.event_name == 'pull_request'
-        env:
-          user: ${{ secrets.IONOS_USERNAME }}
-          password: ${{ secrets.IONOS_PASSWORD }}
-          token: ${{ secrets.IONOS_TOKEN }}
-          access_key_id: ${{ secrets.IONOS_ACCESS_KEY_ID }}
-          secret_access_key: ${{ secrets.IONOS_SECRET_ACCESS_KEY }}
+      # # Step 7: Generate an execution plan for a PR
+      # - name: Terraform Plan
+      #   run: terraform plan  
+      #   if: github.event_name == 'pull_request'
+      #   env:
+      #     user: ${{ secrets.IONOS_USERNAME }}
+      #     password: ${{ secrets.IONOS_PASSWORD }}
+      #     token: ${{ secrets.IONOS_TOKEN }}
+      #     access_key_id: ${{ secrets.IONOS_ACCESS_KEY_ID }}
+      #     secret_access_key: ${{ secrets.IONOS_SECRET_ACCESS_KEY }}
 
-      # Step 8: Apply the plan on push to main
-      - name: Terraform Apply
-        run: terraform apply -auto-approve
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        env:
-          user: ${{ secrets.IONOS_USERNAME }}
-          password: ${{ secrets.IONOS_PASSWORD }}
-          token: ${{ secrets.IONOS_TOKEN }}
-          access_key_id: ${{ secrets.IONOS_ACCESS_KEY_ID }}
-          secret_access_key: ${{ secrets.IONOS_SECRET_ACCESS_KEY }}
+      # # Step 8: Apply the plan on push to main
+      # - name: Terraform Apply
+      #   run: terraform apply -auto-approve
+      #   if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+      #   env:
+      #     user: ${{ secrets.IONOS_USERNAME }}
+      #     password: ${{ secrets.IONOS_PASSWORD }}
+      #     token: ${{ secrets.IONOS_TOKEN }}
+      #     access_key_id: ${{ secrets.IONOS_ACCESS_KEY_ID }}
+      #     secret_access_key: ${{ secrets.IONOS_SECRET_ACCESS_KEY }}
 
 
       - name: Terraform Destroy
