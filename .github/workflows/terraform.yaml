@@ -67,3 +67,14 @@ jobs:
           token: ${{ secrets.IONOS_TOKEN }}
           access_key_id: ${{ secrets.IONOS_ACCESS_KEY_ID }}
           secret_access_key: ${{ secrets.IONOS_SECRET_ACCESS_KEY }}
+
+
+      - name: Terraform Destroy
+        run: terraform destroy -auto-approve
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        env:
+          user: ${{ secrets.IONOS_USERNAME }}
+          password: ${{ secrets.IONOS_PASSWORD }}
+          token: ${{ secrets.IONOS_TOKEN }}
+          access_key_id: ${{ secrets.IONOS_ACCESS_KEY_ID }}
+          secret_access_key: ${{ secrets.IONOS_SECRET_ACCESS_KEY }}
