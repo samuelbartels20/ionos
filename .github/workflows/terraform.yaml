@@ -21,27 +21,16 @@ jobs:
         with:
           terraform_version: ${{ vars.TF_VERSION }}
 
-      # Step 3: Configure the IONOS provider credentials
-      - name: Configure IONOS Credentials
-        run: |
-          echo "provider_credentials = {
-            ionos = {
-              user = \"${{ secrets.IONOS_USERNAME }}\"
-              password = \"${{ secrets.IONOS_PASSWORD }}\"
-              token = \"${{ secrets.IONOS_TOKEN }}\"
-              access_key_id = \"${{ secrets.IONOS_ACCESS_KEY_ID }}\"
-              secret_access_key= \"${{ secrets.IONOS_SECRET_ACCESS_KEY }}\"
-            }
-          }" > ./provider_credentials.tfvars.json
-        shell: bash
-
       # Step 4: Initialize Terraform with the backend and providers
       - name: Terraform Init
         run: terraform init
         env:
           # If your backend config needs secrets (e.g., S3 access keys), set them here too
-          IONOS_USERNAME: ${{ secrets.IONOS_USERNAME }}
-          IONOS_PASSWORD: ${{ secrets.IONOS_PASSWORD }}
+          user: ${{ secrets.IONOS_USERNAME }}
+          password: ${{ secrets.IONOS_PASSWORD }}
+          token: ${{ secrets.IONOS_TOKEN }}
+          access_key_id: ${{ secrets.IONOS_ACCESS_KEY_ID }}
+          secret_access_key: ${{ secrets.IONOS_SECRET_ACCESS_KEY }}
 
       # Step 5: Check code formatting
       - name: Terraform Format
@@ -50,16 +39,31 @@ jobs:
       # Step 6: Validate the code syntax
       - name: Terraform Validate
         run: terraform validate
+        env:
+          user: ${{ secrets.IONOS_USERNAME }}
+          password: ${{ secrets.IONOS_PASSWORD }}
+          token: ${{ secrets.IONOS_TOKEN }}
+          access_key_id: ${{ secrets.IONOS_ACCESS_KEY_ID }}
+          secret_access_key: ${{ secrets.IONOS_SECRET_ACCESS_KEY }}
 
       # Step 7: Generate an execution plan for a PR
       - name: Terraform Plan
-        run: terraform plan -var-file="./provider_credentials.tfvars.json" -input=false -out=tfplan
+        run: terraform plan  -input=false -out=tfplan
         if: github.event_name == 'pull_request'
+        env:
+          user: ${{ secrets.IONOS_USERNAME }}
+          password: ${{ secrets.IONOS_PASSWORD }}
+          token: ${{ secrets.IONOS_TOKEN }}
+          access_key_id: ${{ secrets.IONOS_ACCESS_KEY_ID }}
+          secret_access_key: ${{ secrets.IONOS_SECRET_ACCESS_KEY }}
 
       # Step 8: Apply the plan on push to main
       - name: Terraform Apply
         run: terraform apply -input=false tfplan
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         env:
-          IONOS_USERNAME: ${{ secrets.IONOS_USERNAME }}
-          IONOS_PASSWORD: ${{ secrets.IONOS_PASSWORD }}
+          user: ${{ secrets.IONOS_USERNAME }}
+          password: ${{ secrets.IONOS_PASSWORD }}
+          token: ${{ secrets.IONOS_TOKEN }}
+          access_key_id: ${{ secrets.IONOS_ACCESS_KEY_ID }}
+          secret_access_key: ${{ secrets.IONOS_SECRET_ACCESS_KEY }}
