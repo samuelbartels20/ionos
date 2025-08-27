@@ -48,7 +48,7 @@ jobs:
 
       # Step 7: Generate an execution plan for a PR
       - name: Terraform Plan
-        run: terraform plan  -input=false -out=tfplan
+        run: terraform plan  
         if: github.event_name == 'pull_request'
         env:
           user: ${{ secrets.IONOS_USERNAME }}
@@ -59,7 +59,7 @@ jobs:
 
       # Step 8: Apply the plan on push to main
       - name: Terraform Apply
-        run: terraform apply -input=false tfplan
+        run: terraform apply -auto-approve
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         env:
           user: ${{ secrets.IONOS_USERNAME }}
