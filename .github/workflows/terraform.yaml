@@ -40,6 +40,8 @@ jobs:
         cli_config_credentials_token: ${{ secrets.TOKEN }}
     - name: Configure credentials
       env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.IONOS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.IONOS_SECRET_ACCESS_KEY }}
         IONOS_ACCESS_KEY_ID: ${{ secrets.IONOS_ACCESS_KEY_ID }}
         IONOS_SECRET_ACCESS_KEY: ${{ secrets.IONOS_SECRET_ACCESS_KEY }}
         IONOS_USERNAME: ${{ secrets.IONOS_USERNAME }}
@@ -67,6 +69,8 @@ jobs:
       id: fmt
       run: terraform fmt -check
       env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.IONOS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.IONOS_SECRET_ACCESS_KEY }}
         IONOS_ACCESS_KEY_ID: ${{ secrets.IONOS_ACCESS_KEY_ID }}
         IONOS_SECRET_ACCESS_KEY: ${{ secrets.IONOS_SECRET_ACCESS_KEY }}
         IONOS_USERNAME: ${{ secrets.IONOS_USERNAME }}
@@ -80,6 +84,8 @@ jobs:
       run: terraform plan -no-color -input=false
       continue-on-error: true
       env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.IONOS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.IONOS_SECRET_ACCESS_KEY }}
         IONOS_ACCESS_KEY_ID: ${{ secrets.IONOS_ACCESS_KEY_ID }}
         IONOS_SECRET_ACCESS_KEY: ${{ secrets.IONOS_SECRET_ACCESS_KEY }}
         IONOS_USERNAME: ${{ secrets.IONOS_USERNAME }}
@@ -103,6 +109,8 @@ jobs:
       id: validate
       run: terraform validate -no-color
       env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.IONOS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.IONOS_SECRET_ACCESS_KEY }}
         IONOS_ACCESS_KEY_ID: ${{ secrets.IONOS_ACCESS_KEY_ID }}
         IONOS_SECRET_ACCESS_KEY: ${{ secrets.IONOS_SECRET_ACCESS_KEY }}
         IONOS_USERNAME: ${{ secrets.IONOS_USERNAME }}
@@ -144,6 +152,8 @@ jobs:
       run: terraform apply -auto-approve -input=false
       env:
         TOKEN: ${{ secrets.TOKEN }}
+        AWS_ACCESS_KEY_ID: ${{ secrets.IONOS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.IONOS_SECRET_ACCESS_KEY }}
         IONOS_ACCESS_KEY_ID: ${{ secrets.IONOS_ACCESS_KEY_ID }}
         IONOS_SECRET_ACCESS_KEY: ${{ secrets.IONOS_SECRET_ACCESS_KEY }}
         IONOS_TOKEN: ${{ secrets.TOKEN }}
