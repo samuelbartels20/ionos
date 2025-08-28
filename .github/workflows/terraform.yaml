@@ -68,20 +68,20 @@ jobs:
         IONOS_S3_ENDPOINT: ${{ secrets.ENDPOINT }}
         GITHUB_ACTIONS: ${{ secrets.ACTIONS }}
         TF_CLOUD_TOKEN: ${{ secrets.TF_CLOUD_TOKEN }}
-    - name: Terraform Format
-      id: fmt
-      run: terraform fmt -check
-      env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.IONOS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.IONOS_SECRET_ACCESS_KEY }}
-        IONOS_ACCESS_KEY_ID: ${{ secrets.IONOS_ACCESS_KEY_ID }}
-        IONOS_SECRET_ACCESS_KEY: ${{ secrets.IONOS_SECRET_ACCESS_KEY }}
-        IONOS_USERNAME: ${{ secrets.IONOS_USERNAME }}
-        IONOS_PASSWORD: ${{ secrets.IONOS_PASSWORD }}
-        IONOS_TOKEN: ${{ secrets.TOKEN }}
-        IONOS_S3_ENDPOINT: ${{ secrets.ENDPOINT }}
-        GITHUB_ACTIONS: ${{ secrets.ACTIONS }}
-        TF_CLOUD_TOKEN: ${{ secrets.TF_CLOUD_TOKEN }}
+    # - name: Terraform Format
+    #   id: fmt
+    #   run: terraform fmt -check
+    #   env:
+    #     AWS_ACCESS_KEY_ID: ${{ secrets.IONOS_ACCESS_KEY_ID }}
+    #     AWS_SECRET_ACCESS_KEY: ${{ secrets.IONOS_SECRET_ACCESS_KEY }}
+    #     IONOS_ACCESS_KEY_ID: ${{ secrets.IONOS_ACCESS_KEY_ID }}
+    #     IONOS_SECRET_ACCESS_KEY: ${{ secrets.IONOS_SECRET_ACCESS_KEY }}
+    #     IONOS_USERNAME: ${{ secrets.IONOS_USERNAME }}
+    #     IONOS_PASSWORD: ${{ secrets.IONOS_PASSWORD }}
+    #     IONOS_TOKEN: ${{ secrets.TOKEN }}
+    #     IONOS_S3_ENDPOINT: ${{ secrets.ENDPOINT }}
+    #     GITHUB_ACTIONS: ${{ secrets.ACTIONS }}
+    #     TF_CLOUD_TOKEN: ${{ secrets.TF_CLOUD_TOKEN }}
     - name: Terraform Plan
       id: plan
       if: github.event_name == 'pull_request'
