@@ -28,6 +28,7 @@ jobs:
       TF_VAR_ionos_username: ${{ secrets.IONOS_USERNAME }}
       TF_VAR_ionos_password: ${{ secrets.IONOS_PASSWORD }}
       TF_VAR_ionos_token: ${{ secrets.TOKEN }}
+      TF_VAR_ionos_s3_endpoint: ${{ secrets.ENDPOINT }}
     steps:
     - name: Checkout
       uses: actions/checkout@v3
@@ -47,6 +48,8 @@ jobs:
         TF_VAR_ionos_username: ${{ secrets.IONOS_USERNAME }}
         TF_VAR_ionos_password: ${{ secrets.IONOS_PASSWORD }}
         TF_VAR_ionos_token: ${{ secrets.TOKEN }}
+        TF_VAR_ionos_s3_endpoint: ${{ secrets.ENDPOINT }}
+        TF_VAR_github_actions: ${{ secrets.ACTIONS }}
     - name: Terraform Format
       id: fmt
       run: terraform fmt -check
@@ -55,8 +58,9 @@ jobs:
         TF_VAR_ionos_secret_access_key: ${{ secrets.IONOS_SECRET_ACCESS_KEY }}
         TF_VAR_ionos_username: ${{ secrets.IONOS_USERNAME }}
         TF_VAR_ionos_password: ${{ secrets.IONOS_PASSWORD }}
-        TF_VAR_ionos_datacenter_id: ${{ secrets.TOKEN }}
-
+        TF_VAR_ionos_token: ${{ secrets.TOKEN }}
+        TF_VAR_ionos_s3_endpoint: ${{ secrets.ENDPOINT }}
+        TF_VAR_github_actions: ${{ secrets.ACTIONS }}
     - name: Terraform Plan
       id: plan
       if: github.event_name == 'pull_request'
@@ -67,7 +71,9 @@ jobs:
         TF_VAR_ionos_secret_access_key: ${{ secrets.IONOS_SECRET_ACCESS_KEY }}
         TF_VAR_ionos_username: ${{ secrets.IONOS_USERNAME }}
         TF_VAR_ionos_password: ${{ secrets.IONOS_PASSWORD }}
-        TF_VAR_ionos_datacenter_id: ${{ secrets.TOKEN }}
+        TF_VAR_ionos_token: ${{ secrets.TOKEN }}
+        TF_VAR_ionos_s3_endpoint: ${{ secrets.ENDPOINT }}
+        TF_VAR_github_actions: ${{ secrets.ACTIONS }}
     - name: Terraform Get
       id: get
       run: terraform get
@@ -76,13 +82,21 @@ jobs:
         TF_VAR_ionos_secret_access_key: ${{ secrets.IONOS_SECRET_ACCESS_KEY }}
         TF_VAR_ionos_username: ${{ secrets.IONOS_USERNAME }}
         TF_VAR_ionos_password: ${{ secrets.IONOS_PASSWORD }}
-        TF_VAR_ionos_datacenter_id: ${{ secrets.TOKEN }}
-
+        TF_VAR_ionos_token: ${{ secrets.TOKEN }}
+        TF_VAR_ionos_s3_endpoint: ${{ secrets.ENDPOINT }}
+        TF_VAR_github_actions: ${{ secrets.ACTIONS }}
     
     - name: Terraform Validate
       id: validate
       run: terraform validate -no-color
-
+      env:
+        TF_VAR_ionos_access_key_id: ${{ secrets.IONOS_ACCESS_KEY_ID }}
+        TF_VAR_ionos_secret_access_key: ${{ secrets.IONOS_SECRET_ACCESS_KEY }}
+        TF_VAR_ionos_username: ${{ secrets.IONOS_USERNAME }}
+        TF_VAR_ionos_password: ${{ secrets.IONOS_PASSWORD }}
+        TF_VAR_ionos_token: ${{ secrets.TOKEN }}
+        TF_VAR_ionos_s3_endpoint: ${{ secrets.ENDPOINT }}
+        TF_VAR_github_actions: ${{ secrets.ACTIONS }}
 
 
     - uses: actions/github-script@v6
@@ -122,3 +136,4 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.ACTIONS }}
         PASSWORD: ${{ secrets.IONOS_PASSWORD }}
         USERNAME: ${{ secrets.IONOS_USERNAME }}
+        TF_VAR_github_actions: ${{ secrets.ACTIONS }}
