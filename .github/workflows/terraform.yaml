@@ -151,17 +151,10 @@ jobs:
     - name: Terraform Plan Status
       if: steps.plan.outcome == 'failure'
       run: exit 1
-    - name: Create Terraform Cloud Run
+    - name: Terraform Apply
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-      run: |
-        curl \
-          --header "Authorization: Bearer ${{ secrets.TF_CLOUD_TOKEN }}" \
-          --header "Content-Type: application/vnd.api+json" \
-          --request POST \
-          --data @payload.json \
-          https://app.terraform.io/api/v2/runs
-      env:
-        TF_CLOUD_TOKEN: ${{ secrets.TF_CLOUD_TOKEN }}
+      run: echo "Terraform apply will be handled by Terraform Cloud VCS workflow"
+      # Remove the actual terraform apply command
 
     # - name: Terraform Apply
     #   if: github.ref == 'refs/heads/main' && github.event_name == 'push'
