@@ -40,7 +40,7 @@ jobs:
         TF_VAR_ionos_secret_access_key: ${{ secrets.IONOS_SECRET_ACCESS_KEY }}
         TF_VAR_ionos_username: ${{ secrets.IONOS_USERNAME }}
         TF_VAR_ionos_password: ${{ secrets.IONOS_PASSWORD }}
-        TF_VAR_ionos_datacenter_id: ${{ secrets.TOKEN }}
+        TF_VAR_ionos_token: ${{ secrets.TOKEN }}
     - name: Terraform Format
       id: fmt
       run: terraform fmt -check
@@ -76,7 +76,7 @@ jobs:
     - name: Terraform Validate
       id: validate
       run: terraform validate -no-color
-        
+
 
 
     - uses: actions/github-script@v6
