@@ -151,20 +151,31 @@ jobs:
     - name: Terraform Plan Status
       if: steps.plan.outcome == 'failure'
       run: exit 1
-
-    - name: Terraform Apply
+    - name: Create Terraform Cloud Run
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-      run: terraform apply -auto-approve -input=false
+      run: |
+        curl \
+          --header "Authorization: Bearer ${{ secrets.TF_CLOUD_TOKEN }}" \
+          --header "Content-Type: application/vnd.api+json" \
+          --request POST \
+          --data @payload.json \
+          https://app.terraform.io/api/v2/runs
       env:
-        TOKEN: ${{ secrets.TOKEN }}
-        AWS_ACCESS_KEY_ID: ${{ secrets.IONOS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.IONOS_SECRET_ACCESS_KEY }}
-        IONOS_ACCESS_KEY_ID: ${{ secrets.IONOS_ACCESS_KEY_ID }}
-        IONOS_SECRET_ACCESS_KEY: ${{ secrets.IONOS_SECRET_ACCESS_KEY }}
-        IONOS_TOKEN: ${{ secrets.TOKEN }}
-        IONOS_S3_ENDPOINT: ${{ secrets.ENDPOINT }}
-        ACTIONS: ${{ secrets.ACTIONS }}
-        PASSWORD: ${{ secrets.IONOS_PASSWORD }}
-        USERNAME: ${{ secrets.IONOS_USERNAME }}
-        GITHUB_ACTIONS: ${{ secrets.ACTIONS }}
         TF_CLOUD_TOKEN: ${{ secrets.TF_CLOUD_TOKEN }}
+
+    # - name: Terraform Apply
+    #   if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    #   run: terraform apply -auto-approve -input=false
+    #   env:
+    #     TOKEN: ${{ secrets.TOKEN }}
+    #     AWS_ACCESS_KEY_ID: ${{ secrets.IONOS_ACCESS_KEY_ID }}
+    #     AWS_SECRET_ACCESS_KEY: ${{ secrets.IONOS_SECRET_ACCESS_KEY }}
+    #     IONOS_ACCESS_KEY_ID: ${{ secrets.IONOS_ACCESS_KEY_ID }}
+    #     IONOS_SECRET_ACCESS_KEY: ${{ secrets.IONOS_SECRET_ACCESS_KEY }}
+    #     IONOS_TOKEN: ${{ secrets.TOKEN }}
+    #     IONOS_S3_ENDPOINT: ${{ secrets.ENDPOINT }}
+    #     ACTIONS: ${{ secrets.ACTIONS }}
+    #     PASSWORD: ${{ secrets.IONOS_PASSWORD }}
+    #     USERNAME: ${{ secrets.IONOS_USERNAME }}
+    #     GITHUB_ACTIONS: ${{ secrets.ACTIONS }}
+    #     TF_CLOUD_TOKEN: ${{ secrets.TF_CLOUD_TOKEN }}
