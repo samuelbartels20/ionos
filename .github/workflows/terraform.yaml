@@ -73,3 +73,10 @@ jobs:
     - name: Terraform Apply
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
       run: terraform apply -auto-approve -input=false
+      env:
+        TOKEN: ${{ secrets.TOKEN }}
+        TF_VAR_ionos_access_key_id: ${{ secrets.IONOS_ACCESS_KEY_ID }}
+        TF_VAR_ionos_secret_access_key: ${{ secrets.IONOS_SECRET_ACCESS_KEY }}
+        GITHUB_TOKEN: ${{ secrets.ACTIONS }}
+        PASSWORD: ${{ secrets.IONOS_PASSWORD }}
+        USERNAME: ${{ secrets.IONOS_USERNAME }}
