@@ -38,6 +38,17 @@ jobs:
       with:
         # terraform_version: 0.13.0:
         cli_config_credentials_token: ${{ secrets.TOKEN }}
+    - name: Configure credentials
+      env:
+        IONOS_ACCESS_KEY_ID: ${{ secrets.IONOS_ACCESS_KEY_ID }}
+        IONOS_SECRET_ACCESS_KEY: ${{ secrets.IONOS_SECRET_ACCESS_KEY }}
+        IONOS_USERNAME: ${{ secrets.IONOS_USERNAME }}
+        IONOS_PASSWORD: ${{ secrets.IONOS_PASSWORD }}
+        IONOS_TOKEN: ${{ secrets.TOKEN }}
+        IONOS_S3_ENDPOINT: ${{ secrets.ENDPOINT }}
+        GITHUB_ACTIONS: ${{ secrets.ACTIONS }}
+      run: |
+        echo "Credentials configured"
 
     - name: Terraform Init
       id: init
