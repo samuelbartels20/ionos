@@ -8,7 +8,7 @@ resource "onepassword_item" "ionos_endpoint" {
   password = var.ionos_password
 
   section {
-    label = "ionos_endpoint"
+    label = "IONOS_ENDPOINT"
     
     field {
       label = "IONOS_ENDPOINT"
@@ -27,7 +27,7 @@ resource "onepassword_item" "ionos_username" {
   password = var.ionos_password
 
   section {
-    label = "ionos_username"
+    label = "IONOS_USERNAME"
     
     field {
       label = "IONOS_USERNAME"
