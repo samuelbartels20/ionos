@@ -1,4 +1,3 @@
-
 resource "onepassword_item" "ionos_endpoint" {
 
   vault = "K8s"
@@ -12,9 +11,9 @@ resource "onepassword_item" "ionos_endpoint" {
     label = "ionos_endpoint"
     
     field {
-      label = "endpoint"
+      label = "IONOS_ENDPOINT"
       type  = "STRING"
-      value = data.onepassword_item.ionos.fields.IONOS_ENDPOINT
+      value = data.onepassword_item.ionos.IONOS_ENDPOINT
     }
   }
 }
@@ -31,9 +30,9 @@ resource "onepassword_item" "ionos_username" {
     label = "ionos_username"
     
     field {
-      label = "endpoint"
+      label = "IONOS_USERNAME"
       type  = "STRING"
-      value = data.onepassword_item.ionos.fields.IONOS_USERNAME
+      value = data.onepassword_item.ionos.IONOS_USERNAME
     }
   }
 }
@@ -43,11 +42,11 @@ resource "onepassword_item" "ionos_password" {
   category = "login"
   
   section {
-    label = "ionos_password"
+    label = "IONOS_PASSWORD"
     
     field {
       label = "IONOS_PASSWORD"
-      value = data.onepassword_item.ionos.fields.IONOS_PASSWORD
+      value = data.onepassword_item.ionos.IONOS_PASSWORD
       type  = "CONCEALED"
     }
   }
@@ -59,11 +58,11 @@ resource "onepassword_item" "ionos_token" {
   category = "login"
   
   section {
-    label = "ionos_token"
+    label = "IONOS_TOKEN"
     
     field {
       label = "IONOS_TOKEN"
-      value = data.onepassword_item.ionos.fields.IONOS_TOKEN
+      value = data.onepassword_item.ionos.IONOS_TOKEN
       type  = "CONCEALED"
     }
   }
