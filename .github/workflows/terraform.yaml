@@ -42,7 +42,6 @@ jobs:
         # Define all secrets that need to be loaded
         IONOS_USERNAME: "op://K8s/ionos/IONOS_USERNAME"
         IONOS_PASSWORD: "op://K8s/ionos/IONOS_PASSWORD"
-        IONOS_ENDPOINT: "op://K8s/ionos/IONOS_ENDPOINT"
         AWS_ACCESS_KEY_ID: "op://K8s/ionos/AWS_ACCESS_KEY_ID"
         AWS_SECRET_ACCESS_KEY: "op://K8s/ionos/AWS_SECRET_ACCESS_KEY"
         IONOS_TOKEN: "op://K8s/ionos/IONOS_TOKEN"
