@@ -42,6 +42,7 @@ jobs:
         AWS_ACCESS_KEY_ID: "op://K8s/ionos/AWS_ACCESS_KEY_ID"
         AWS_SECRET_ACCESS_KEY: "op://K8s/ionos/AWS_SECRET_ACCESS_KEY"
         IONOS_TOKEN: "op://K8s/ionos/IONOS_TOKEN"
+        TF_VAR_OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
 
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v3
@@ -77,6 +78,7 @@ jobs:
         TF_VAR_aws_access_key_id: ${{ env.AWS_ACCESS_KEY_ID }}
         TF_VAR_aws_secret_access_key: ${{ env.AWS_SECRET_ACCESS_KEY }}
         TF_VAR_ionos_token: ${{ env.IONOS_TOKEN }}
+        TF_VAR_op_service_account_token: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
     - name: Terraform Apply
       if: github.ref == 'refs/heads/main'
       run: terraform apply -auto-approve
