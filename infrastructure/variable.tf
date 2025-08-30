@@ -146,6 +146,12 @@ variable "ionos_token" {
   sensitive   = true
 }
 
+variable "op_connect_service_account_token" {
+  type        = string
+  description = "1Password service account token"
+  sensitive   = true
+}
+
 variable "ionos_endpoint" {
   type        = string
   description = "IONOS endpoint"
