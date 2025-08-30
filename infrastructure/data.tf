@@ -1,29 +1,29 @@
 data "onepassword_item" "ionos_username" {
-  vault = "xyrzokprou45dsa55meaoieqci"
+  vault = "K8s"
   title = "ionos"
 }
 
 data "onepassword_item" "ionos_password" {
-  vault = "xyrzokprou45dsa55meaoieqci"
+  vault = "K8s"
   title = "ionos"
 }
 
 data "onepassword_item" "ionos_endpoint" {
-  vault = "xyrzokprou45dsa55meaoieqci"
+  vault = "K8s"
   title = "ionos"
 }
 
 data "onepassword_item" "ionos_token" {
-  vault = "xyrzokprou45dsa55meaoieqci"
+  vault = "K8s"
   title = "ionos"
 }
 
 
-data "onepassword_vault" "xyrzokprou45dsa55meaoieqci" {
-  name = "xyrzokprou45dsa55meaoieqci"
+data "onepassword_vault" "K8s" {
+  name = "K8s"
 }
 
 data "onepassword_item" "ionos" {
-  vault = data.onepassword_vault.xyrzokprou45dsa55meaoieqci.id
+  vault = data.onepassword_vault.K8s.id
   title = "ionos"
 }
