@@ -14,7 +14,7 @@ resource "onepassword_item" "ionos_endpoint" {
     field {
       label = "endpoint"
       type  = "STRING"
-      value = data.onepassword_item.ionos_endpoint.fields.IONOS_ENDPOINT
+      value = data.onepassword_item.ionos.fields.IONOS_ENDPOINT
     }
   }
 }
@@ -33,7 +33,7 @@ resource "onepassword_item" "ionos_username" {
     field {
       label = "endpoint"
       type  = "STRING"
-      value = data.onepassword_item.ionos_username.fields.IONOS_USERNAME
+      value = data.onepassword_item.ionos.fields.IONOS_USERNAME
     }
   }
 }
@@ -47,7 +47,7 @@ resource "onepassword_item" "ionos_password" {
     
     field {
       label = "IONOS_PASSWORD"
-      value = data.onepassword_item.ionos_password.fields.IONOS_PASSWORD
+      value = data.onepassword_item.ionos.fields.IONOS_PASSWORD
       type  = "CONCEALED"
     }
   }
@@ -63,7 +63,7 @@ resource "onepassword_item" "ionos_token" {
     
     field {
       label = "IONOS_TOKEN"
-      value = data.onepassword_item.ionos_token.fields.IONOS_TOKEN
+      value = data.onepassword_item.ionos.fields.IONOS_TOKEN
       type  = "CONCEALED"
     }
   }
