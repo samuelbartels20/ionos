@@ -53,7 +53,6 @@ resource "onepassword_item" "ionos_password" {
   }
 }
 
-
 resource "onepassword_item" "ionos_token" {
   vault    = "K8s"
   title    = "ionos"
