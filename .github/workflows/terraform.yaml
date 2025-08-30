@@ -46,52 +46,12 @@ jobs:
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v3
 
-    - name: terraform init
-      run: op run -- terraform init
-      env:
-        # Use the resolved values from 1Password
-        IONOS_USERNAME: ${{ env.IONOS_USERNAME }}
-        IONOS_PASSWORD: ${{ env.IONOS_PASSWORD }}
-        IONOS_ENDPOINT: ${{ env.IONOS_ENDPOINT }}
-        AWS_ACCESS_KEY_ID: ${{ env.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ env.AWS_SECRET_ACCESS_KEY }}
-        # Pass as TF_VARs for Terraform variables
-        TF_VAR_IONOS_USERNAME: ${{ env.IONOS_USERNAME }}
-        TF_VAR_IONOS_PASSWORD: ${{ env.IONOS_PASSWORD }}
-        TF_VAR_IONOS_ENDPOINT: ${{ env.IONOS_ENDPOINT }}
-        TF_VAR_AWS_ACCESS_KEY_ID: ${{ env.AWS_ACCESS_KEY_ID }}
-        TF_VAR_AWS_SECRET_ACCESS_KEY: ${{ env.AWS_SECRET_ACCESS_KEY }}
-        TF_VAR_op_service_account_token: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
+    - name: terraform init 
+      run: op run --env-file="infrastructure/.env_vars" -- terraform init
 
     - name: terraform plan
-      run: op run -- terraform plan
-      env:
-        # Same environment variables as above
-        IONOS_USERNAME: ${{ env.IONOS_USERNAME }}
-        IONOS_PASSWORD: ${{ env.IONOS_PASSWORD }}
-        IONOS_ENDPOINT: ${{ env.IONOS_ENDPOINT }}
-        AWS_ACCESS_KEY_ID: ${{ env.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ env.AWS_SECRET_ACCESS_KEY }}
-        TF_VAR_IONOS_USERNAME: ${{ env.IONOS_USERNAME }}
-        TF_VAR_IONOS_PASSWORD: ${{ env.IONOS_PASSWORD }}
-        TF_VAR_IONOS_ENDPOINT: ${{ env.IONOS_ENDPOINT }}
-        TF_VAR_AWS_ACCESS_KEY_ID: ${{ env.AWS_ACCESS_KEY_ID }}
-        TF_VAR_AWS_SECRET_ACCESS_KEY: ${{ env.AWS_SECRET_ACCESS_KEY }}
-        TF_VAR_op_service_account_token: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
+      run: op run --env-file="infrastructure/.env_vars" -- terraform plan
 
     - name: Terraform Apply
       if: github.ref == 'refs/heads/main'
-      run: op run -- terraform apply -auto-approve
-      env:
-        # Same environment variables as above
-        IONOS_USERNAME: ${{ env.IONOS_USERNAME }}
-        IONOS_PASSWORD: ${{ env.IONOS_PASSWORD }}
-        IONOS_ENDPOINT: ${{ env.IONOS_ENDPOINT }}
-        AWS_ACCESS_KEY_ID: ${{ env.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ env.AWS_SECRET_ACCESS_KEY }}
-        TF_VAR_IONOS_USERNAME: ${{ env.IONOS_USERNAME }}
-        TF_VAR_IONOS_PASSWORD: ${{ env.IONOS_PASSWORD }}
-        TF_VAR_IONOS_ENDPOINT: ${{ env.IONOS_ENDPOINT }}
-        TF_VAR_AWS_ACCESS_KEY_ID: ${{ env.AWS_ACCESS_KEY_ID }}
-        TF_VAR_AWS_SECRET_ACCESS_KEY: ${{ env.AWS_SECRET_ACCESS_KEY }}
-        TF_VAR_op_service_account_token: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
+      run: op run --env-file="infrastructure/.env_vars" -- terraform apply -auto-approve
