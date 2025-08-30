@@ -21,7 +21,7 @@ terraform {
     # Kubernetes Provider
     kubernetes = {
       source  = "hashicorp/kubernetes"
-      version = "~> 2.24.0"
+      version = "~> 2.38.0"
     }
     # TLS Provider
     tls = {
