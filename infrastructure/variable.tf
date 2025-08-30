@@ -147,5 +147,29 @@ variable "op_service_account_token" {
 }
 
 
+variable "IONOS_ENDPOINT" {
+  type        = string
+  description = "IONOS API endpoint"
+  sensitive   = true
+}
+
+variable "IONOS_USERNAME" {
+  type        = string
+  description = "IONOS username"
+  sensitive   = true
+}
+
+variable "IONOS_PASSWORD" {
+  type        = string
+  description = "IONOS password"
+  sensitive   = true
+}
+
+variable "IONOS_TOKEN" {
+  type        = string
+  description = "IONOS token"
+  sensitive   = true
+}
+
 
 

@@ -17,4 +17,3 @@ data "onepassword_item" "ionos_token" {
   vault = "K8S"
   title = "ionos"
 }
-
