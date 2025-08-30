@@ -69,6 +69,26 @@ output "kubeconfig_path" {
   value       = local_file.kubeconfig.filename
 }
 
+output "ionos_endpoint" {
+  sensitive   = true
+  description = "The endpoint of the IONOS API"
+  value       = data.onepassword_item.ionos.IONOS_ENDPOINT
+}
+output "ionos_username" {
+  sensitive   = true
+  description = "The username of the IONOS API"
+  value       = data.onepassword_item.ionos.IONOS_USERNAME
+}
+output "ionos_password" {
+  sensitive   = true
+  description = "The password of the IONOS API"
+  value       = data.onepassword_item.ionos.IONOS_PASSWORD
+}
 
+output "ionos_token" {
+  sensitive   = true
+  description = "The token of the IONOS API"
+  value       = data.onepassword_item.ionos.IONOS_TOKEN
+}
 
 
