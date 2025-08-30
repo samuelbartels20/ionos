@@ -51,7 +51,6 @@ jobs:
         TF_VAR_OP_CONNECT_ACCOUNT: ${{ secrets.OP_CONNECT_ACCOUNT }}
         TF_VAR_OP_CONNECT_CLI_PATH: ${{ secrets.OP_CONNECT_CLI_PATH }}
         TF_VAR_OP_CONNECT_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_CONNECT_SERVICE_ACCOUNT_TOKEN }}
-        TF_VAR_IONOS_ENDPOINT: ${{ op://K8s/ionos/IONOS_ENDPOINT }}
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v3
 
