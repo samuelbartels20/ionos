@@ -2,7 +2,6 @@ terraform {
   required_version = ">= 1.5.0"
   # Configure the S3 backend
   
-  
   backend "s3" {
     bucket = "ionos202030"
     key    = "terraform.tfstate"
