@@ -1,20 +1,20 @@
 data "onepassword_item" "ionos_username" {
-  vault = "K8S"
+  vault = "K8s"
   title = "ionos"
 }
 
 data "onepassword_item" "ionos_password" {
-  vault = "K8S"
+  vault = "K8s"
   title = "ionos"
 }
 
 data "onepassword_item" "ionos_endpoint" {
-  vault = "K8S"
+  vault = "K8s"
   title = "ionos"
 }
 
 data "onepassword_item" "ionos_token" {
-  vault = "K8S"
+  vault = "K8s"
   title = "ionos"
 }
 
