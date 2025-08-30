@@ -39,7 +39,11 @@ terraform {
       source  = "1Password/onepassword"
       version = "~> 2.0.0"
     }
-
+    # AWS Provider
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 5.0.0"
+    }
 
   }
 

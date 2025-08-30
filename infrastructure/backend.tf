@@ -14,6 +14,9 @@ terraform {
   }
 }
 
+provider "aws" {
+  region = "us-east-1"
+}
 
 
 # Configure the IONOS Cloud Provider
