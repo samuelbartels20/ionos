@@ -19,11 +19,11 @@ data "onepassword_item" "ionos_token" {
 }
 
 
-data "onepassword_vault" "k8s" {
+data "onepassword_vault" "K8s" {
   name = "K8S"
 }
 
 data "onepassword_item" "ionos" {
-  vault = data.onepassword_vault.k8s.id
+  vault = data.onepassword_vault.K8s.id
   title = "ionos"
 }
