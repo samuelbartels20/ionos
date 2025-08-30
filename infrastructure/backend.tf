@@ -30,7 +30,7 @@ provider "ionoscloud" {
 provider "onepassword" {
   url                   = var.op_connect_host
   token                 = var.op_connect_token
-  service_account_token = var.op_connect_token
+  service_account_token = var.op_connect_service_account_token
   account               = var.op_connect_account
   op_cli_path           = var.op_connect_cli_path
 }
