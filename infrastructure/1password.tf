@@ -1,6 +1,6 @@
 resource "onepassword_item" "ionos_credentials" {
   vault    = "K8s"
-  title    = "ionos-credentials"
+  title    = "ionos"
   category = "login"
   
   username = var.IONOS_USERNAME

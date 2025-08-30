@@ -36,6 +36,7 @@ jobs:
         TF_VAR_IONOS_USERNAME: "op://K8s/ionos/IONOS_USERNAME"
         TF_VAR_IONOS_PASSWORD: "op://K8s/ionos/IONOS_PASSWORD"
         TF_VAR_IONOS_ENDPOINT: "op://K8s/ionos/IONOS_ENDPOINT"
+        
 
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v3

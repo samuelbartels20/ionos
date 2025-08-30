@@ -42,10 +42,5 @@ provider "ionoscloud" {
 }
 
 provider "onepassword" {
-  # This tells the provider to use your 1Password account credentials
-  # which will trigger a biometric or system authentication prompt.
-  account = "YZR7RF2KZRF63EVC6A7OVPKKHA" # Find this using `op account ls`
-  token = data.onepassword_item.ionos_token.TF_VAR_IONOS_TOKEN
-  url = "https://my.1password.com "
-  op_cli_path = "op" 
+
 }
