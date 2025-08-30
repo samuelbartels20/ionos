@@ -47,11 +47,11 @@ jobs:
       uses: hashicorp/setup-terraform@v3
 
     - name: terraform init 
-      run: op run --env-file=".env_vars" -- terraform init
+      run: op run --env-file=.env_vars -- terraform init
 
     - name: terraform plan
-      run: op run --env-file=".env_vars" -- terraform plan
+      run: op run --env-file=.env_vars -- terraform plan
 
     - name: Terraform Apply
       if: github.ref == 'refs/heads/main'
-      run: op run --env-file=".env_vars" -- terraform apply -auto-approve
+      run: op run --env-file=.env_vars -- terraform apply -auto-approve
