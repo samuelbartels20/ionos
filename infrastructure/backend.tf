@@ -1,37 +1,21 @@
 terraform {
   required_version = ">= 1.5.0"
   # Configure the S3 backend
+  
+  
   backend "s3" {
     bucket = "ionos202030"
     key    = "terraform.tfstate"
     region = "us-east-1"
-    # IONOS S3 endpoint
-    endpoints = {
-      s3 = "http://ionos202030.s3-website-us-east-1.amazonaws.com"
-    }
     
-    # Skip AWS-specific validations for IONOS compatibility
-    skip_credentials_validation = true
-    skip_metadata_api_check     = true
-    skip_region_validation      = true
-    skip_requesting_account_id  = true
-    use_path_style            = true
-    
-    # Set these as environment variables:
-    # export AWS_ACCESS_KEY_ID="your-ionos-s3-access-key"
-    # export AWS_SECRET_ACCESS_KEY="your-ionos-s3-secret-key"
+    # No special settings needed for AWS S3
+    # Just set these environment variables:
+    # export AWS_ACCESS_KEY_ID="your-aws-access-key"
+    # export AWS_SECRET_ACCESS_KEY="your-aws-secret-key"
   }
-  #   backend "remote" {
-  #   hostname     = "app.terraform.io"
-  #   organization = "samuelbartels"
-
-  #   workspaces {
-  #     name = "ionos"
-  #   }
-
-  # }
-
 }
+
+
 
 # Configure the IONOS Cloud Provider
 provider "ionoscloud" {
