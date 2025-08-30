@@ -34,6 +34,11 @@ terraform {
       source  = "hashicorp/local"
       version = "~> 2.4.0"
     }
+    # OnePassword Provider
+    onepassword = {
+      source  = "1Password/onepassword"
+      version = "~> 2.0.0"
+    }
 
 
   }
