@@ -64,7 +64,6 @@ jobs:
         AWS_ACCESS_KEY_ID: ${{ env.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ env.AWS_SECRET_ACCESS_KEY }}
         IONOS_TOKEN: ${{ env.IONOS_TOKEN }}
-        TF_VAR_IONOS_ENDPOINT: ${{ op://K8s/ionos/IONOS_ENDPOINT }}
         # These will be used as Terraform variables (TF_VAR_*)
         TF_VAR_ionos_username: ${{ env.IONOS_USERNAME }}
         TF_VAR_ionos_password: ${{ env.IONOS_PASSWORD }}
