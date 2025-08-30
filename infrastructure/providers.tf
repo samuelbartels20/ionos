@@ -11,7 +11,7 @@ terraform {
     # Random Provider
     random = {
       source  = "hashicorp/random"
-      version = "~> 3.6.0"
+      version = "~> 3.7.0"
     }
     # Helm Provider
     helm = {
