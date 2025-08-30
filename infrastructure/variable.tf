@@ -128,7 +128,7 @@ variable "op_connect_host" {
   sensitive   = true
 }
 
-variable "op_connect_account" {
+variable "op_account" {
   description = "1Password account"
   type        = string
   sensitive   = true
