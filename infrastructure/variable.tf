@@ -1,27 +1,3 @@
-# IONOS Cloud Provider
-variable "IONOS_ENDPOINT" {
-  description = "The endpoint for the IONOS Cloud"
-  type        = string
-  default     = "api.ionos.com"
-}
-
-variable "TF_VAR_IONOS_TOKEN" {
-  description = "The token for the IONOS Cloud"
-  type        = string
-  default     = ""
-}
-
-variable "IONOS_USERNAME" {   
-  description = "The username for the IONOS Cloud"
-  type        = string
-  default     = ""
-}
-
-variable "IONOS_PASSWORD" {
-  description = "The password for the IONOS Cloud"
-  type        = string
-  default     = ""
-}
 
 # Datacenter
 variable "datacenter_name" {
@@ -146,30 +122,28 @@ variable "op_service_account_token" {
   sensitive   = true
 }
 
-
-variable "IONOS_ENDPOINT" {
-  type        = string
-  description = "IONOS API endpoint"
-  sensitive   = true
-}
-
-variable "IONOS_USERNAME" {
-  type        = string
-  description = "IONOS username"
-  sensitive   = true
-}
-
-variable "IONOS_PASSWORD" {
-  type        = string
-  description = "IONOS password"
-  sensitive   = true
-}
-
-variable "IONOS_TOKEN" {
+variable "ionos_token" {
   type        = string
   description = "IONOS token"
   sensitive   = true
 }
 
+variable "ionos_endpoint" {
+  type        = string
+  description = "IONOS endpoint"
+  sensitive   = true
+}
+
+variable "ionos_username" {
+  type        = string
+  description = "IONOS username"
+  sensitive   = true
+}
+
+variable "ionos_password" {
+  type        = string
+  description = "IONOS password"
+  sensitive   = true
+} 
 
 
