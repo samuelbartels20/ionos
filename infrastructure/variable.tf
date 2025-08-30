@@ -128,23 +128,26 @@ variable "op_connect_host" {
   sensitive   = true
 }
 
-variable "op_account" {
-  description = "1Password account"
-  type        = string
-  sensitive   = true
-}
+# variable "op_account" {
+#   description = "1Password account"
+#   type        = string
+#   sensitive   = true
+# }
 
-variable "op_cli_path" {
-  description = "1Password CLI path"
-  type        = string
-  sensitive   = true
-}
+# variable "op_cli_path" {
+#   description = "1Password CLI path"
+#   type        = string
+#   sensitive   = true
+# }
 
-variable "ionos_token" {
-  type        = string
-  description = "IONOS token"
-  sensitive   = true
-}
+
+
+
+# variable "ionos_token" {
+#   type        = string
+#   description = "IONOS token"
+#   sensitive   = true
+# }
 
 variable "op_connect_service_account_token" {
   type        = string
@@ -152,11 +155,23 @@ variable "op_connect_service_account_token" {
   sensitive   = true
 }
 
-variable "ionos_endpoint" {
-  type        = string
-  description = "IONOS endpoint"
-  sensitive   = true
-}
+# variable "ionos_endpoint" {
+#   type        = string
+#   description = "IONOS endpoint"
+#   sensitive   = true
+# }
+
+# variable "ionos_username" {
+#   type        = string
+#   description = "IONOS username"
+#   sensitive   = true
+# }
+
+# variable "ionos_password" {
+#   type        = string
+#   description = "IONOS password"
+#   sensitive   = true
+# }
 
 variable "ionos_username" {
   type        = string
@@ -169,5 +184,4 @@ variable "ionos_password" {
   description = "IONOS password"
   sensitive   = true
 }
-
 

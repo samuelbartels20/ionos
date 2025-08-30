@@ -37,7 +37,7 @@ terraform {
     # OnePassword Provider
     onepassword = {
       source  = "1Password/onepassword"
-      version = "~> 2.0.0"
+      version = "~> 2.1.2"
     }
     # AWS Provider
     aws = {

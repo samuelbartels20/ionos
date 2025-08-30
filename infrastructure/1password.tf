@@ -1,68 +1,68 @@
 resource "onepassword_item" "ionos_endpoint" {
 
-  vault = "K8s"
+  vault = "xyrzokprou45dsa55meaoieqci"
   title = "ionos"
   category = "login"
   
-  username = var.ionos_username
+  username = data.onepassword_item.IONOS_USERNAME.IONOS_USERNAME
   password = var.ionos_password
 
   section {
-    label = "IONOS_ENDPOINT"
+    label = "ionos_endpoint"
     
     field {
-      label = "IONOS_ENDPOINT"
+      label = "ionos_endpoint"
       type  = "STRING"
-      value = var.ionos_endpoint
+      value = data.onepassword_item.IONOS_ENDPOINT.IONOS_ENDPOINT
     }
   }
 }
 
 resource "onepassword_item" "ionos_username" {
-  vault = "K8s"
+  vault = "xyrzokprou45dsa55meaoieqci"
   title = "ionos"
   category = "login"
   
-  username = var.ionos_username
+  username = data.onepassword_item.IONOS_USERNAME.IONOS_USERNAME
   password = var.ionos_password
 
   section {
-    label = "IONOS_USERNAME"
+    label = "ionos_username"
     
     field {
-      label = "IONOS_USERNAME"
+      label = "ionos_username"
       type  = "STRING"
-      value = var.ionos_username
+      value = data.onepassword_item.IONOS_USERNAME.IONOS_USERNAME
     }
   }
 }
 resource "onepassword_item" "ionos_password" {
-  vault    = "K8s"
+  vault    = "xyrzokprou45dsa55meaoieqci"
   title    = "ionos"
   category = "login"
   
   section {
-    label = "IONOS_PASSWORD"
+    label = "ionos_password"
     
     field {
-      label = "IONOS_PASSWORD"
-      value = var.ionos_password
+      label = "ionos_password"
+      value = data.onepassword_item.IONOS_PASSWORD.IONOS_PASSWORD
       type  = "CONCEALED"
     }
   }
 }
 
 resource "onepassword_item" "ionos_token" {
-  vault    = "K8s"
+  vault    = "xyrzokprou45dsa55meaoieqci"
   title    = "ionos"
   category = "login"
   
   section {
-    label = "IONOS_TOKEN"
+    label = "ionos_token"
     
     field {
-      label = "IONOS_TOKEN"
-      value = var.ionos_token
+      label = "ionos_token"
+      value = data.onepassword_item.IONOS_TOKEN.IONOS_TOKEN
       type  = "CONCEALED"
     }
   }

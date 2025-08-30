@@ -21,16 +21,14 @@ provider "aws" {
 
 # Configure the IONOS Cloud Provider
 provider "ionoscloud" {
-  endpoint = var.ionos_endpoint
-  token = var.ionos_token
-  username = var.ionos_username
-  password = var.ionos_password
+  username = data.onepassword_item.IONOS_USERNAME.IONOS_USERNAME
+  password = data.onepassword_item.IONOS_PASSWORD.IONOS_PASSWORD
 }
 
 provider "onepassword" {
-  url                   = var.op_connect_host
-  account               = var.op_account
-  op_cli_path           = var.op_cli_path
-  token                 = var.op_connect_token
+  # url                   = var.op_connect_host
+  # # account               = var.op_account
+  # # op_cli_path           = var.op_cli_path
+  # token                 = var.op_connect_token
   service_account_token = var.op_connect_service_account_token
 }
