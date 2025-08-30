@@ -122,28 +122,28 @@ variable "op_service_account_token" {
   sensitive   = true
 }
 
-# variable "ionos_token" {
-#   type        = string
-#   description = "IONOS token"
-#   sensitive   = true
-# }
+variable "ionos_token" {
+  type        = string
+  description = "IONOS token"
+  sensitive   = true
+}
 
-# variable "ionos_endpoint" {
-#   type        = string
-#   description = "IONOS endpoint"
-#   sensitive   = true
-# }
+variable "ionos_endpoint" {
+  type        = string
+  description = "IONOS endpoint"
+  sensitive   = true
+}
 
-# variable "ionos_username" {
-#   type        = string
-#   description = "IONOS username"
-#   sensitive   = true
-# }
+variable "ionos_username" {
+  type        = string
+  description = "IONOS username"
+  sensitive   = true
+}
 
-# variable "ionos_password" {
-#   type        = string
-#   description = "IONOS password"
-#   sensitive   = true
-# } 
+variable "ionos_password" {
+  type        = string
+  description = "IONOS password"
+  sensitive   = true
+} 
 
 

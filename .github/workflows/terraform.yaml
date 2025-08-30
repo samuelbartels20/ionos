@@ -46,8 +46,8 @@ jobs:
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v3
 
-    - name: Terraform Init
-      run: terraform init
+    - name: terraform init
+      run: op run -- terraform init
       env:
         # Use the resolved values from 1Password
         IONOS_USERNAME: ${{ env.IONOS_USERNAME }}
@@ -63,8 +63,8 @@ jobs:
         TF_VAR_AWS_SECRET_ACCESS_KEY: ${{ env.AWS_SECRET_ACCESS_KEY }}
         TF_VAR_op_service_account_token: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
 
-    - name: Terraform Plan
-      run: terraform plan
+    - name: terraform plan
+      run: op run -- terraform plan
       env:
         # Same environment variables as above
         IONOS_USERNAME: ${{ env.IONOS_USERNAME }}
@@ -81,7 +81,7 @@ jobs:
 
     - name: Terraform Apply
       if: github.ref == 'refs/heads/main'
-      run: terraform apply -auto-approve
+      run: op run -- terraform apply -auto-approve
       env:
         # Same environment variables as above
         IONOS_USERNAME: ${{ env.IONOS_USERNAME }}
