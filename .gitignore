@@ -17,3 +17,22 @@ override.tf.json
 
 .terraformrc
 terraform.rc
+
+# Secrets
+*.pub
+*.key
+*.decrypted~*.yaml
+/age.key
+/cloudflare-tunnel.json
+/github-deploy.key
+/github-deploy.key.pub
+/github-push-token.txt
+# Kubernetes
+kubeconfig
+ionosconfig
+# Misc.
+.private/
+.task/
+.venv/
+.DS_Store
+Thumbs.db

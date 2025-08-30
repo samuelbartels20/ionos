@@ -2,12 +2,12 @@ terraform {
   required_version = ">= 1.5.0"
   # Configure the S3 backend
   backend "s3" {
-    bucket = "ionos-wordpress"
-    key    = "wordpress-infrastructure/terraform.tfstate"
-    region = "de"
+    bucket = "ionos202030"
+    key    = "terraform.tfstate"
+    region = "us-east-1"
     # IONOS S3 endpoint
     endpoints = {
-      s3 = "http://192.168.8.102:9000"
+      s3 = "http://ionos202030.s3-website-us-east-1.amazonaws.com"
     }
     
     # Skip AWS-specific validations for IONOS compatibility

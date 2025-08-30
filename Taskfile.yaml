@@ -1,0 +1,35 @@
+---
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+version: '3'
+
+set: [pipefail]
+shopt: [globstar]
+
+vars:
+  BOOTSTRAP_DIR: '{{.ROOT_DIR}}/bootstrap'
+  KUBERNETES_DIR: '{{.ROOT_DIR}}/kubernetes'
+  SCRIPTS_DIR: '{{.ROOT_DIR}}/scripts'
+  IONOS_DIR: '{{.ROOT_DIR}}/ionos'
+  PRIVATE_DIR: '{{.ROOT_DIR}}/.private'
+  IONOSCONFIG: '{{.ROOT_DIR}}/ionos/clusterconfig/ionosconfig'
+
+env:
+  KUBECONFIG: '{{.ROOT_DIR}}/kubeconfig'
+  SOPS_AGE_KEY_FILE: '{{.ROOT_DIR}}/age.key'
+  IONOSCONFIG: '{{.IONOSCONFIG}}'
+
+includes:
+  bootstrap: .taskfiles/bootstrap
+  ionos: .taskfiles/ionos
+  template: .taskfiles/template
+
+tasks:
+
+  default: task --list
+
+  reconcile:
+    desc: Force Flux to pull in changes from your Git repository
+    cmd: flux --namespace flux-system reconcile kustomization flux-system --with-source
+    preconditions:
+      - test -f {{.KUBECONFIG}}
+      - which flux
