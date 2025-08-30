@@ -31,6 +31,8 @@ jobs:
 
     - name: Load secrets from 1Password
       uses: 1password/load-secrets-action@v1
+      with:
+        export_env: true      
       env:
         OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
         TF_VAR_IONOS_USERNAME: "op://K8s/ionos/IONOS_USERNAME"
