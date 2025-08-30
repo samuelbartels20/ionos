@@ -46,6 +46,10 @@ jobs:
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v3
 
+    - name: Test MinIO connection
+      run: |
+        curl -v https://192.168.8.102:9000/minio/health/live
+
     - name: Terraform Init
       run: terraform init
       env:
