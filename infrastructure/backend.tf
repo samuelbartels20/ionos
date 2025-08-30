@@ -36,7 +36,7 @@ terraform {
 # Configure the IONOS Cloud Provider
 provider "ionoscloud" {
   endpoint = data.onepassword_item.ionos_endpoint.IONOS_ENDPOINT
-  token = data.onepassword_item.ionos_token.TF_VAR_IONOS_TOKEN
+  token = data.onepassword_item.ionos_token.IONOS_TOKEN
   username = data.onepassword_item.ionos_username.IONOS_USERNAME
   password = data.onepassword_item.ionos_password.IONOS_PASSWORD
 }
