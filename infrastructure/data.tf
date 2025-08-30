@@ -1,20 +1,19 @@
-data "onepassword_item" "IONOS_USERNAME" {
+data "onepassword_item" "ionos_username" {
   vault = "K8S"
   title = "ionos"
 }
 
-data "onepassword_item" "IONOS_PASSWORD" {
+data "onepassword_item" "ionos_password" {
   vault = "K8S"
   title = "ionos"
 }
 
-data "onepassword_item" "IONOS_ENDPOINT" {
+data "onepassword_item" "ionos_endpoint" {
   vault = "K8S"
   title = "ionos"
 }
 
-
-data "onepassword_item" "TF_VAR_IONOS_TOKEN" {
+data "onepassword_item" "ionos_token" {
   vault = "K8S"
   title = "ionos"
 }
