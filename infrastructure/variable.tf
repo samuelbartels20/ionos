@@ -116,8 +116,26 @@ variable "app_nodepool_storage_size" {
 }
 
 # 1password
-variable "op_service_account_token" {
+variable "op_connect_token" {
   description = "1Password service account token"
+  type        = string
+  sensitive   = true
+}
+
+variable "op_connect_host" {
+  description = "1Password connect host"
+  type        = string
+  sensitive   = true
+}
+
+variable "op_connect_account" {
+  description = "1Password account"
+  type        = string
+  sensitive   = true
+}
+
+variable "op_connect_cli_path" {
+  description = "1Password CLI path"
   type        = string
   sensitive   = true
 }
