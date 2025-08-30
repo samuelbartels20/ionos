@@ -134,7 +134,7 @@ variable "op_connect_account" {
   sensitive   = true
 }
 
-variable "op_connect_cli_path" {
+variable "op_cli_path" {
   description = "1Password CLI path"
   type        = string
   sensitive   = true
