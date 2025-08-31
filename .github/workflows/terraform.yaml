@@ -61,12 +61,12 @@ jobs:
         with:
           export-env: true
         env:
-          AWS_ACCESS_KEY_ID: ${{ env.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ env.AWS_SECRET_ACCESS_KEY }}
-          IONOS_USERNAME: ${{ env.IONOS_USERNAME }}
-          IONOS_PASSWORD: ${{ env.IONOS_PASSWORD }}
-          IONOS_TOKEN: ${{ env.IONOS_TOKEN }}
-          IONOS_ENDPOINT: ${{ env.IONOS_ENDPOINT }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          IONOS_USERNAME: ${{ secrets.IONOS_USERNAME }}
+          IONOS_PASSWORD: ${{ secrets.IONOS_PASSWORD }}
+          IONOS_TOKEN: ${{ secrets.IONOS_TOKEN }}
+          IONOS_ENDPOINT: ${{ secrets.IONOS_ENDPOINT }}
 
       - name: Verify Secrets Loaded
         run: |
@@ -117,7 +117,7 @@ jobs:
         continue-on-error: true
         uses: borchero/terraform-plan-comment@434458316f8f24dd073cd2561c436cce41dc8f34 # v2.4.1
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.TOKEN }}
           planfile: .planfile
           terraform-cmd: tofu
           header: " Terraform Plan for infrastructure"
