@@ -101,8 +101,13 @@ jobs:
       - name: Tofu fmt
         id: fmt
         working-directory: infrastructure
-        run: tofu fmt -check
-        continue-on-error: false
+        run: |
+          tofu fmt
+          if [[ -n $(git status --porcelain) ]]; then
+            echo "Files were formatted. Please commit the changes."
+            git diff
+            exit 1
+          fi
       - name: Tofu Init
         id: init
         working-directory: infrastructure
