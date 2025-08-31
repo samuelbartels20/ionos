@@ -49,14 +49,6 @@ jobs:
   sync:
     name: Terraform Diff
     runs-on: ubuntu-latest
-    needs: ["changed-terraform"]
-    # Skip job if no terraform files were changed
-    if: ${{ fromJSON(needs.changed-terraform.outputs.matrix) != '[]' }}
-    strategy:
-      matrix:
-        paths: ${{ fromJSON(needs.changed-terraform.outputs.matrix) }}
-      max-parallel: 4
-      fail-fast: false
     steps:
       - name: Configure 1password
         uses: 1password/load-secrets-action/configure@13f58eec611f8e5db52ec16247f58c508398f3e6 # v3.0.0
