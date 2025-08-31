@@ -5,7 +5,7 @@ resource "onepassword_item" "ionos_endpoint" {
   category = "login"
   
   username = data.onepassword_item.IONOS_USERNAME.IONOS_USERNAME
-  password = var.ionos_password
+  password = data.onepassword_item.IONOS_PASSWORD.IONOS_PASSWORD
 
   section {
     label = "ionos_endpoint"
@@ -24,7 +24,7 @@ resource "onepassword_item" "ionos_username" {
   category = "login"
   
   username = data.onepassword_item.IONOS_USERNAME.IONOS_USERNAME
-  password = var.ionos_password
+  password = data.onepassword_item.IONOS_PASSWORD.IONOS_PASSWORD
 
   section {
     label = "ionos_username"

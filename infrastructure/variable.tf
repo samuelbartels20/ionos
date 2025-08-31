@@ -116,72 +116,23 @@ variable "app_nodepool_storage_size" {
 }
 
 # 1password
-variable "op_connect_token" {
-  description = "1Password service account token"
-  type        = string
-  sensitive   = true
-}
-
-variable "op_connect_host" {
-  description = "1Password connect host"
-  type        = string
-  sensitive   = true
-}
-
-# variable "op_account" {
-#   description = "1Password account"
-#   type        = string
-#   sensitive   = true
-# }
-
-# variable "op_cli_path" {
-#   description = "1Password CLI path"
-#   type        = string
-#   sensitive   = true
-# }
-
-
-
-
-# variable "ionos_token" {
-#   type        = string
-#   description = "IONOS token"
-#   sensitive   = true
-# }
-
 variable "op_connect_service_account_token" {
   type        = string
   description = "1Password service account token"
   sensitive   = true
 }
 
-# variable "ionos_endpoint" {
-#   type        = string
-#   description = "IONOS endpoint"
-#   sensitive   = true
-# }
-
-# variable "ionos_username" {
-#   type        = string
-#   description = "IONOS username"
-#   sensitive   = true
-# }
-
-# variable "ionos_password" {
-#   type        = string
-#   description = "IONOS password"
-#   sensitive   = true
-# }
-
-variable "ionos_username" {
+variable "vault" {
+  description = "Vault name to find the Item in"
   type        = string
-  description = "IONOS username"
-  sensitive   = true
 }
 
-variable "ionos_password" {
+variable "item" {
+  description = "Password Item to fetch"
   type        = string
-  description = "IONOS password"
-  sensitive   = true
 }
+
+
+
+
 
