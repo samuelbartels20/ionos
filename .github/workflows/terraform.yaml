@@ -55,9 +55,15 @@ jobs:
           IONOS_PASSWORD: op://K8s/ionos/IONOS_PASSWORD
           IONOS_TOKEN: op://K8s/ionos/IONOS_TOKEN
           IONOS_ENDPOINT: op://K8s/ionos/IONOS_ENDPOINT
-          
-      - name: Print masked secret
-        run: 'echo "Secret: ${{ steps.load_secrets.outputs.IONOS_USERNAME}}"'
+      - name: Print environment variables with masked secrets
+        run: |
+          echo "IONOS_USERNAME: $IONOS_USERNAME"
+          echo "IONOS_PASSWORD: $IONOS_PASSWORD"
+          echo "IONOS_TOKEN: $IONOS_TOKEN"
+          echo "IONOS_ENDPOINT: $IONOS_ENDPOINT"
+          echo "AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID"
+          echo "AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY"
+
       - name: Verify Secrets Loaded
         run: |
           echo "Checking if secrets were loaded successfully..."
