@@ -90,7 +90,7 @@ variable "app_nodepool_cpu_family" {
   default     = "INTEL_SKYLAKE"
   validation {
     condition = contains([
-      "AMD_OPTERON", "INTEL_XEON", "INTEL_SKYLAKE", 
+      "AMD_OPTERON", "INTEL_XEON", "INTEL_SKYLAKE",
       "INTEL_ICELAKE", "AMD_EPYC", "INTEL_SIERRA_FOREST"
     ], var.app_nodepool_cpu_family)
     error_message = "Invalid CPU family. Must be a supported IONOS CPU family."

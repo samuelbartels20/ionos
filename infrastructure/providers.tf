@@ -7,7 +7,7 @@ terraform {
       source  = "ionos-cloud/ionoscloud"
       version = "~> 6.5.0"
     }
-    
+
     # Random Provider
     random = {
       source  = "hashicorp/random"
@@ -28,7 +28,7 @@ terraform {
       source  = "hashicorp/tls"
       version = "~> 4.0.0"
     }
-    
+
     # Local Provider
     local = {
       source  = "hashicorp/local"

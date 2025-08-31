@@ -2,7 +2,7 @@ resource "ionoscloud_datacenter" "k8s-datacenter" {
   name        = var.datacenter_name
   location    = var.datacenter_location
   description = "Production Kubernetes infrastructure for ${var.project_name}"
-  
+
   timeouts {
     create = "30m"
     update = "30m"
@@ -14,7 +14,7 @@ resource "ionoscloud_lan" "k8s-public-lan" {
   datacenter_id = ionoscloud_datacenter.k8s-datacenter.id
   public        = true
   name          = "public-lan"
-  
+
   depends_on = [ionoscloud_datacenter.k8s-datacenter]
 }
 
@@ -28,8 +28,8 @@ resource "ionoscloud_lan" "k8s-private-lan" {
 }
 
 resource "ionoscloud_ipblock" "k8s-ipblock" {
-  location              = var.datacenter_location
-  size                  = 3
-  name                  = "ipblock"
+  location   = var.datacenter_location
+  size       = 3
+  name       = "ipblock"
   depends_on = [ionoscloud_datacenter.k8s-datacenter]
 }
