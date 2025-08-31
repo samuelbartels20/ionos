@@ -61,12 +61,12 @@ jobs:
         with:
           export-env: true
         env:
-          AWS_ACCESS_KEY_ID: op://K8s/aws/AWS_ACCESS_KEY_ID
-          AWS_SECRET_ACCESS_KEY: op://K8s/aws/AWS_SECRET_ACCESS_KEY
-          IONOS_USERNAME: op://K8s/ionos/IONOS_USERNAME
-          IONOS_PASSWORD: op://K8s/ionos/IONOS_PASSWORD
-          IONOS_TOKEN: op://K8s/ionos/IONOS_TOKEN
-          IONOS_ENDPOINT: op://K8s/ionos/IONOS_ENDPOINT
+          AWS_ACCESS_KEY_ID: ${{ env.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ env.AWS_SECRET_ACCESS_KEY }}
+          IONOS_USERNAME: ${{ env.IONOS_USERNAME }}
+          IONOS_PASSWORD: ${{ env.IONOS_PASSWORD }}
+          IONOS_TOKEN: ${{ env.IONOS_TOKEN }}
+          IONOS_ENDPOINT: ${{ env.IONOS_ENDPOINT }}
 
       - name: Verify Secrets Loaded
         run: |
