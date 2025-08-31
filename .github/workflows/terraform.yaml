@@ -38,18 +38,21 @@ jobs:
 
       - name: Get Secrets
         id: load-secrets
-        uses: 1password/load-secrets-action@v2
+        uses: 1password/load-secrets-action@v3
         with:
           export-env: true
-          service-account-token: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
+
         env:
+          OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
           AWS_ACCESS_KEY_ID: op://K8s/aws/AWS_ACCESS_KEY_ID 
           AWS_SECRET_ACCESS_KEY: op://K8s/aws/AWS_SECRET_ACCESS_KEY
           IONOS_USERNAME: op://K8s/ionos/IONOS_USERNAME
           IONOS_PASSWORD: op://K8s/ionos/IONOS_PASSWORD
           IONOS_TOKEN: op://K8s/ionos/IONOS_TOKEN
           IONOS_ENDPOINT: op://K8s/ionos/IONOS_ENDPOINT
-
+          
+      - name: Print masked secret
+        run: 'echo "Secret: ${{ steps.load_secrets.outputs.AWS_ACCESS_KEY_ID}}"'
       - name: Verify Secrets Loaded
         run: |
           echo "Checking if secrets were loaded successfully..."
