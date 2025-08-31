@@ -4,9 +4,9 @@
   
   on:
     workflow_dispatch:
-    pull_request:
-      branches: ["main"]
-      paths: ["infrastructure/**"]
+    # pull_request:
+    #   branches: ["main"]
+    #   paths: ["infrastructure/**"]
     push:
       branches: ["main"]
       paths: ["infrastructure/**"]
