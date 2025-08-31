@@ -130,16 +130,17 @@ jobs:
       - name: Tofu Init
         id: init
         working-directory: infrastructure
-        env:
-          AWS_ACCESS_KEY_ID: op://K8s/ionos/AWS_ACCESS_KEY_ID
-          AWS_SECRET_ACCESS_KEY: op://K8s/ionos/AWS_SECRET_ACCESS_KEY
-          IONOS_USERNAME: op://K8s/ionos/IONOS_USERNAME
         run: |
           tofu init \
             -backend-config="access_key=$AWS_ACCESS_KEY_ID" \
             -backend-config="secret_key=$AWS_SECRET_ACCESS_KEY"
           AWS_ACCESS_KEY_ID: ${{ env.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ env.AWS_SECRET_ACCESS_KEY }}
+          AWS_ACCESS_KEY_ID: op://K8s/ionos/AWS_ACCESS_KEY_ID
+          AWS_SECRET_ACCESS_KEY: op://K8s/ionos/AWS_SECRET_ACCESS_KEY
+        env:
+          AWS_ACCESS_KEY_ID: op://K8s/ionos/AWS_ACCESS_KEY_ID
+          AWS_SECRET_ACCESS_KEY: op://K8s/ionos/AWS_SECRET_ACCESS_KEY
 
       - name: Tofu Validate
         id: validate
