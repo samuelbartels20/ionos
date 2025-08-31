@@ -40,7 +40,6 @@ jobs:
         uses: 1password/load-secrets-action/configure@v2
         with:
           service-account-token: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
-
       - name: Get Secrets
         id: load-secrets
         uses: 1password/load-secrets-action@v3
@@ -55,6 +54,7 @@ jobs:
           IONOS_PASSWORD: op://K8s/ionos/IONOS_PASSWORD
           IONOS_TOKEN: op://K8s/ionos/IONOS_TOKEN
           IONOS_ENDPOINT: op://K8s/ionos/IONOS_ENDPOINT
+        
       - name: Print environment variables with masked secrets
         run: |
           echo "IONOS_USERNAME: $IONOS_USERNAME"
@@ -76,11 +76,13 @@ jobs:
             exit 1
           fi
           echo "Secrets loaded successfully!"
+        shell: bash
 
       - name: Install Opentofu
         uses: opentofu/setup-opentofu@000eeb8522f0572907c393e8151076c205fdba1b # v1.0.6
         with:
           tofu_wrapper: false
+        
 
       - name: Tofu fmt
         id: fmt
