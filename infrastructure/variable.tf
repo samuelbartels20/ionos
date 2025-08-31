@@ -125,11 +125,13 @@ variable "op_connect_service_account_token" {
 variable "vault" {
   description = "Vault name to find the Item in"
   type        = string
+  default     = "K8s"
 }
 
 variable "item" {
   description = "Password Item to fetch"
   type        = string
+  default     = "ionos"
 }
 
 
