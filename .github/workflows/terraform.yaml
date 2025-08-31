@@ -45,7 +45,7 @@ jobs:
         id: load-secrets
         uses: 1password/load-secrets-action@v3
         with:
-          export-env: true
+          export-env: false
 
         env:
           OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
