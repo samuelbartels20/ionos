@@ -57,7 +57,8 @@
       steps:
         - name: Configure 1password
           uses: 1password/load-secrets-action/configure@13f58eec611f8e5db52ec16247f58c508398f3e6 # v3.0.0
-          with: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
+          env:
+            OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
   
         - name: Get Secrets
           uses: 1password/load-secrets-action@13f58eec611f8e5db52ec16247f58c508398f3e6 # v3.0.0
