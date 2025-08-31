@@ -49,7 +49,7 @@
   
     sync:
       name: Terraform Diff
-      runs-on: [ubuntu-latest] #Backend is stored on local minio with no external ingress
+      runs-on: [ubuntu-latest] 
       needs: ["changed-terraform"]
       strategy:
         matrix:
