@@ -36,6 +36,11 @@ jobs:
       - name: Install 1Password CLI
         uses: 1password/install-cli-action@f5d505685ccf986ef535da41cd180792c8ac3a36 # v2.0.1
 
+      - name: Configure 1Password
+        uses: 1password/load-secrets-action/configure@v3
+        with:
+          service-account-token: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
+
       - name: Get Secrets
         id: load-secrets
         uses: 1password/load-secrets-action@v3
@@ -52,7 +57,7 @@ jobs:
           IONOS_ENDPOINT: op://K8s/ionos/IONOS_ENDPOINT
           
       - name: Print masked secret
-        run: 'echo "Secret: ${{ steps.load_secrets.outputs.AWS_ACCESS_KEY_ID}}"'
+        run: 'echo "Secret: ${{ steps.load_secrets.outputs.IONOS_USERNAME}}"'
       - name: Verify Secrets Loaded
         run: |
           echo "Checking if secrets were loaded successfully..."
