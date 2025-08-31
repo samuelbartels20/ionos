@@ -48,8 +48,8 @@ jobs:
 
         env:
           OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
-          TF_VAR_AWS_ACCESS_KEY_ID: op://K8s/aws/AWS_ACCESS_KEY_ID 
-          TF_VAR_AWS_SECRET_ACCESS_KEY: op://K8s/aws/AWS_SECRET_ACCESS_KEY
+          TF_VAR_AWS_ACCESS_KEY_ID: op://K8s/ionos/AWS_ACCESS_KEY_ID 
+          TF_VAR_AWS_SECRET_ACCESS_KEY: op://K8s/ionos/aws/AWS_SECRET_ACCESS_KEY
           TF_VAR_IONOS_USERNAME: op://K8s/ionos/IONOS_USERNAME
           TF_VAR_IONOS_PASSWORD: op://K8s/ionos/IONOS_PASSWORD
           TF_VAR_IONOS_TOKEN: op://K8s/ionos/IONOS_TOKEN
