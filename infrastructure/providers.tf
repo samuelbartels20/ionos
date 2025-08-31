@@ -16,7 +16,7 @@ terraform {
     # Helm Provider
     helm = {
       source  = "hashicorp/helm"
-      version = "~> 2.12.0"
+      version = "~> 2.17.0"
     }
     # Kubernetes Provider
     kubernetes = {
