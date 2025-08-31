@@ -1,141 +1,123 @@
-name: Deploy Infrastructure
-
-on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
-
-permissions:
-  contents: read
-  pull-requests: write
-  issues: write
-  actions: write
-  checks: write
-  deployments: write
-
-jobs:
-  terraform:
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: infrastructure
-        shell: bash
-    
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-
-    - name: Install 1Password CLI
-      uses: 1password/install-cli-action@v1
-
-    - name: Load secrets from 1Password
-      uses: 1password/load-secrets-action@v1
-      with:
-        export_env: true
-      env:
-        OP_CONNECT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
-        OP_CONNECT_HOST: ${{ secrets.OP_CONNECT_HOST }}
-        OP_CONNECT_ACCOUNT: ${{ secrets.OP_CONNECT_ACCOUNT }}
-        OP_CONNECT_CLI_PATH: ${{ secrets.OP_CONNECT_CLI_PATH }}
-        OP_CONNECT_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_CONNECT_SERVICE_ACCOUNT_TOKEN }}
-        IONOS_ENDPOINT: ${{ secrets.IONOS_ENDPOINT }}
-        IONOS_TOKEN: ${{ secrets.IONOS_TOKEN }}
-        # Define all secrets that need to be loaded
-        IONOS_USERNAME: "op://K8s/ionos/IONOS_USERNAME"
-        IONOS_PASSWORD: "op://K8s/ionos/IONOS_PASSWORD"
-        AWS_ACCESS_KEY_ID: "op://K8s/ionos/AWS_ACCESS_KEY_ID"
-        AWS_SECRET_ACCESS_KEY: "op://K8s/ionos/AWS_SECRET_ACCESS_KEY"
-
-
-        TF_VAR_OP_CONNECT_TOKEN: ${{ env.IONOS_OP_CONNECT_TOKEN }}
-        TF_VAR_OP_CONNECT_HOST: ${{ env.IONOS_OP_CONNECT_HOST }}
-        TF_VAR_OP_CONNECT_ACCOUNT: ${{ env.IONOS_OP_CONNECT_ACCOUNT }}
-        TF_VAR_OP_CONNECT_CLI_PATH: ${{ env.IONOS_OP_CONNECT_CLI_PATH }}
-        TF_VAR_OP_CONNECT_SERVICE_ACCOUNT_TOKEN: ${{ env.IONOS_OP_CONNECT_SERVICE_ACCOUNT_TOKEN }}
-        TF_VAR_IONOS_ENDPOINT: ${{ env.IONOS_ENDPOINT }}
-        TF_VAR_IONOS_TOKEN: ${{ env.IONOS_TOKEN }}
-    - name: Setup Terraform
-      uses: hashicorp/setup-terraform@v3
-
-    - name: Terraform Init
-      run: terraform init
-      env:
-        # These environment variables will be used by Terraform providers
-        OP_CONNECT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
-        OP_CONNECT_HOST: ${{ secrets.OP_CONNECT_HOST }}
-        OP_CONNECT_ACCOUNT: ${{ secrets.OP_CONNECT_ACCOUNT }}
-        OP_CONNECT_CLI_PATH: ${{ secrets.OP_CONNECT_CLI_PATH }}
-        OP_CONNECT_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_CONNECT_SERVICE_ACCOUNT_TOKEN }}
-        IONOS_ENDPOINT: ${{ secrets.IONOS_ENDPOINT }}
-        IONOS_TOKEN: ${{ secrets.IONOS_TOKEN }}
-        # Define all secrets that need to be loaded
-        IONOS_USERNAME: "op://K8s/ionos/IONOS_USERNAME"
-        IONOS_PASSWORD: "op://K8s/ionos/IONOS_PASSWORD"
-        AWS_ACCESS_KEY_ID: "op://K8s/ionos/AWS_ACCESS_KEY_ID"
-        AWS_SECRET_ACCESS_KEY: "op://K8s/ionos/AWS_SECRET_ACCESS_KEY"
-
-
-
-
-        TF_VAR_OP_CONNECT_TOKEN: ${{ env.IONOS_OP_CONNECT_TOKEN }}
-        TF_VAR_OP_CONNECT_HOST: ${{ env.IONOS_OP_CONNECT_HOST }}
-        TF_VAR_OP_CONNECT_ACCOUNT: ${{ env.IONOS_OP_CONNECT_ACCOUNT }}
-        TF_VAR_OP_CONNECT_CLI_PATH: ${{ env.IONOS_OP_CONNECT_CLI_PATH }}
-        TF_VAR_OP_CONNECT_SERVICE_ACCOUNT_TOKEN: ${{ env.IONOS_OP_CONNECT_SERVICE_ACCOUNT_TOKEN }}
-    - name: Terraform Plan
-      run: terraform plan
-      env:
-        OP_CONNECT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
-        OP_CONNECT_HOST: ${{ secrets.OP_CONNECT_HOST }}
-        OP_CONNECT_ACCOUNT: ${{ secrets.OP_CONNECT_ACCOUNT }}
-        OP_CONNECT_CLI_PATH: ${{ secrets.OP_CONNECT_CLI_PATH }}
-        OP_CONNECT_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_CONNECT_SERVICE_ACCOUNT_TOKEN }}
-        IONOS_ENDPOINT: ${{ secrets.IONOS_ENDPOINT }}
-        # Define all secrets that need to be loaded
-        IONOS_USERNAME: "op://K8s/ionos/IONOS_USERNAME"
-        IONOS_PASSWORD: "op://K8s/ionos/IONOS_PASSWORD"
-        AWS_ACCESS_KEY_ID: "op://K8s/ionos/AWS_ACCESS_KEY_ID"
-        AWS_SECRET_ACCESS_KEY: "op://K8s/ionos/AWS_SECRET_ACCESS_KEY"
-        IONOS_OP_CONNECT_TOKEN: "op://K8s/ionos/OP_CONNECT_TOKEN"
-        IONOS_OP_CONNECT_HOST: "op://K8s/ionos/OP_CONNECT_HOST"
-        IONOS_OP_CONNECT_ACCOUNT: "op://K8s/ionos/OP_CONNECT_ACCOUNT"
-        IONOS_OP_CONNECT_CLI_PATH: "op://K8s/ionos/OP_CONNECT_CLI_PATH"
-        IONOS_OP_CONNECT_SERVICE_ACCOUNT_TOKEN: "op://K8s/ionos/OP_CONNECT_SERVICE_ACCOUNT_TOKEN"
-
-
-        TF_VAR_OP_CONNECT_TOKEN: ${{ env.IONOS_OP_CONNECT_TOKEN }}
-        TF_VAR_OP_CONNECT_HOST: ${{ env.IONOS_OP_CONNECT_HOST }}
-        TF_VAR_OP_CONNECT_ACCOUNT: ${{ env.IONOS_OP_CONNECT_ACCOUNT }}
-        TF_VAR_OP_CONNECT_CLI_PATH: ${{ env.IONOS_OP_CONNECT_CLI_PATH }}
-        TF_VAR_OP_CONNECT_SERVICE_ACCOUNT_TOKEN: ${{ env.IONOS_OP_CONNECT_SERVICE_ACCOUNT_TOKEN }}
-
-
-
-       
-    - name: Terraform Apply
-      if: github.ref == 'refs/heads/main'
-      run: terraform apply -auto-approve
-      env:
-
-        OP_CONNECT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
-        OP_CONNECT_HOST: ${{ secrets.OP_CONNECT_HOST }}
-        OP_CONNECT_ACCOUNT: ${{ secrets.OP_CONNECT_ACCOUNT }}
-        OP_CONNECT_CLI_PATH: ${{ secrets.OP_CONNECT_CLI_PATH }}
-        OP_CONNECT_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_CONNECT_SERVICE_ACCOUNT_TOKEN }}
-        IONOS_ENDPOINT: ${{ secrets.IONOS_ENDPOINT }}
-        IONOS_USERNAME: ${{ secrets.IONOS_USERNAME }}
-        IONOS_PASSWORD: ${{ secrets.IONOS_PASSWORD }}
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        IONOS_TOKEN: ${{ secrets.IONOS_TOKEN }}
-
-        
-        TF_VAR_OP_CONNECT_TOKEN: ${{ env.IONOS_OP_CONNECT_TOKEN }}
-        TF_VAR_OP_CONNECT_HOST: ${{ env.IONOS_OP_CONNECT_HOST }}
-        TF_VAR_OP_CONNECT_ACCOUNT: ${{ env.IONOS_OP_CONNECT_ACCOUNT }}
-        TF_VAR_OP_CONNECT_CLI_PATH: ${{ env.IONOS_OP_CONNECT_CLI_PATH }}
-        TF_VAR_OP_CONNECT_SERVICE_ACCOUNT_TOKEN: ${{ env.IONOS_OP_CONNECT_SERVICE_ACCOUNT_TOKEN }}
-
-
-        
+---
+  # yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+  name: "Terraform Diff"
+  
+  on:
+    workflow_dispatch:
+    pull_request:
+      branches: ["main"]
+      paths: ["infrastructure/**"]
+      
+  
+  concurrency:
+    group: ${{ github.workflow }}-${{ github.event.number || github.ref }}
+    cancel-in-progress: true
+  
+  permissions:
+    contents: read
+    pull-requests: write
+    issues: write
+    actions: write
+    checks: write
+    deployments: write
+  
+  jobs:
+    changed-terraform:
+      name: Changed Terraform
+      runs-on: ubuntu-latest
+      outputs:
+        matrix: ${{ steps.changed-terraform.outputs.all_changed_and_modified_files }}
+      steps:
+        - name: Checkout
+          uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+          with:
+            persist-credentials: false
+  
+        - name: Get Changed Terraform
+          id: changed-terraform
+          uses: tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c # v46.0.5
+          with:
+            files: terraform/**
+            dir_names: true
+            dir_names_max_depth: 2
+            matrix: true
+  
+        - name: List All Changed Terraform
+          run: echo ${{ steps.changed-terraform.outputs.all_changed_and_modified_files }}
+  
+    sync:
+      name: Terraform Diff
+      runs-on: [ubuntu-latest] #Backend is stored on local minio with no external ingress
+      needs: ["changed-terraform"]
+      strategy:
+        matrix:
+          paths: ${{ fromJSON(needs.changed-terraform.outputs.matrix) }}
+        max-parallel: 4
+        fail-fast: false
+      steps:
+        - name: Configure 1password
+          uses: 1password/load-secrets-action/configure@13f58eec611f8e5db52ec16247f58c508398f3e6 # v3.0.0
+          with:
+            OP_CONNECT_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_CONNECT_SERVICE_ACCOUNT_TOKEN }}
+  
+        - name: Get Secrets
+          uses: 1password/load-secrets-action@13f58eec611f8e5db52ec16247f58c508398f3e6 # v3.0.0
+          with:
+            export-env: true
+          env:
+            AWS_ACCESS_KEY_ID: op://K8s/ionos/AWS_ACCESS_KEY_ID
+            AWS_SECRET_ACCESS_KEY: op://K8s/ionos/AWS_SECRET_ACCESS_KEY
+            IONOS_ENDPOINT: op://K8s/ionos/IONOS_ENDPOINT
+            IONOS_TOKEN: op://K8s/ionos/IONOS_TOKEN
+            OP_CONNECT_SERVICE_ACCOUNT_TOKEN: op://K8s/ionos/op_connect_service_account_token
+            IONOS_USERNAME: op://K8s/ionos/IONOS_USERNAME
+            IONOS_PASSWORD: op://K8s/ionos/IONOS_PASSWORD
+  
+        - name: Checkout
+          uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+          with:
+            persist-credentials: false
+  
+        - name: Install Opentofu
+          uses: opentofu/setup-opentofu@000eeb8522f0572907c393e8151076c205fdba1b # v1.0.6
+          with:
+            tofu_wrapper: false
+  
+        - name: Install 1Password CLI
+          uses: 1password/install-cli-action@f5d505685ccf986ef535da41cd180792c8ac3a36 # v2.0.1
+  
+        - name: Tofu fmt
+          id: fmt
+          working-directory: ${{ matrix.paths }}
+          run: tofu fmt -check
+          continue-on-error: true
+  
+        - name: Tofu Init
+          id: init
+          working-directory: ${{ matrix.paths }}
+          env:
+            AWS_ACCESS_KEY_ID: ${{ env.AWS_ACCESS_KEY_ID }}
+            AWS_SECRET_ACCESS_KEY: ${{ env.AWS_SECRET_ACCESS_KEY }}
+          run: |
+            tofu init \
+              -backend-config="access_key=$AWS_ACCESS_KEY_ID" \
+              -backend-config="secret_key=$AWS_SECRET_ACCESS_KEY"
+  
+        - name: Tofu Validate
+          id: validate
+          working-directory: ${{ matrix.paths }}
+          run: tofu validate -no-color
+  
+        - name: Tofu Plan
+          working-directory: ${{ matrix.paths }}
+          run: tofu plan -lock=false -var "OP_CONNECT_SERVICE_ACCOUNT_TOKEN=${{ secrets.OP_CONNECT_SERVICE_ACCOUNT_TOKEN }}" -out .planfile | grep -v "Refreshing state...\|Reading...\|Read complete after"
+  
+        - name: Post PR comment
+          continue-on-error: true
+          uses: borchero/terraform-plan-comment@434458316f8f24dd073cd2561c436cce41dc8f34 # v2.4.1
+          with:
+            token: ${{ secrets.OP_CONNECT_SERVICE_ACCOUNT_TOKEN }}
+            planfile: .planfile
+            terraform-cmd: tofu
+            header: " Terraform Plan for ${{ matrix.paths }}"
+            working-directory: ${{ matrix.paths }}
