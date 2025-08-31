@@ -20,44 +20,102 @@ permissions:
   deployments: write
 
 jobs:
-  sync:
-    name: Sync Infrastructure
+  changed-terraform:
+    name: Changed Terraform
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: infrastructure
+    outputs:
+      matrix: ${{ steps.changed-terraform.outputs.all_changed_files_json }}
     steps:
       - name: Checkout
         uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
         with:
           persist-credentials: false
+
+      - name: Get Changed Terraform
+        id: changed-terraform
+        uses: tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c # v46.0.5
+        with:
+          files: infrastructure/**
+          dir_names: true
+          dir_names_max_depth: 2
+          matrix: true
+
+      - name: List All Changed Terraform
+        run: echo "${{ steps.changed-terraform.outputs.all_changed_files_json }}"
+
+  sync:
+    name: Terraform Diff
+    runs-on: ubuntu-latest
+    needs: ["changed-terraform"]
+    # Skip job if no terraform files were changed
+    if: ${{ fromJSON(needs.changed-terraform.outputs.matrix) != '[]' }}
+    strategy:
+      matrix:
+        paths: ${{ fromJSON(needs.changed-terraform.outputs.matrix) }}
+      max-parallel: 4
+      fail-fast: false
+    steps:
+      - name: Checkout
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+        with:
+          persist-credentials: false
+
+      - name: Install 1Password CLI
+        uses: 1password/install-cli-action@f5d505685ccf986ef535da41cd180792c8ac3a36 # v2.0.1
+
+      - name: Debug - Test 1Password Connection
+        run: |
+          echo "Testing 1Password connection..."
+          echo "OP_SERVICE_ACCOUNT_TOKEN length: ${#OP_SERVICE_ACCOUNT_TOKEN}"
+          # Test if the token is valid
+          if op --version; then
+            echo "1Password CLI installed successfully"
+          else
+            echo "1Password CLI failed"
+            exit 1
+          fi
+        env:
+          OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
+
       - name: Configure 1password
         uses: 1password/load-secrets-action/configure@13f58eec611f8e5db52ec16247f58c508398f3e6 # v3.0.0
         env:
           OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
 
       - name: Get Secrets
+        id: get-secrets
         uses: 1password/load-secrets-action@13f58eec611f8e5db52ec16247f58c508398f3e6 # v3.0.0
         with:
           export-env: true
         env:
-          # AWS_ACCESS_KEY_ID: op://K8s/aws/AWS_ACCESS_KEY_ID
-          # AWS_SECRET_ACCESS_KEY: op://K8s/aws/AWS_SECRET_ACCESS_KEY
-          OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }} 
-          # IONOS_ENDPOINT: op://K8s/ionos/IONOS_ENDPOINT
-          # IONOS_TOKEN: op://K8s/ionos/IONOS_TOKEN
-          # IONOS_USERNAME: op://K8s/ionos/IONOS_USERNAME
-          # IONOS_PASSWORD: op://K8s/ionos/IONOS_PASSWORD
+          AWS_ACCESS_KEY_ID: op://K8s/aws/AWS_ACCESS_KEY_ID
+          AWS_SECRET_ACCESS_KEY: op://K8s/aws/AWS_SECRET_ACCESS_KEY
+          IONOS_USERNAME: op://K8s/ionos/IONOS_USERNAME
+          IONOS_PASSWORD: op://K8s/ionos/IONOS_PASSWORD
+          IONOS_TOKEN: op://K8s/ionos/IONOS_TOKEN
+          IONOS_ENDPOINT: op://K8s/ionos/IONOS_ENDPOINT
 
+      - name: Verify Secrets Loaded
+        run: |
+          echo "Checking if secrets were loaded successfully..."
+          if [ -z "$IONOS_USERNAME" ]; then
+            echo "ERROR: IONOS_USERNAME is empty"
+            exit 1
+          fi
+          if [ -z "$AWS_ACCESS_KEY_ID" ]; then
+            echo "ERROR: AWS_ACCESS_KEY_ID is empty"
+            exit 1
+          fi
+          echo "Secrets loaded successfully!"
 
 
       - name: Install Opentofu
         uses: opentofu/setup-opentofu@000eeb8522f0572907c393e8151076c205fdba1b # v1.0.6
         with:
           tofu_wrapper: false
-
-      - name: Install 1Password CLI
-        uses: 1password/install-cli-action@f5d505685ccf986ef535da41cd180792c8ac3a36 # v2.0.1
 
       - name: Tofu fmt
         id: fmt
@@ -89,7 +147,7 @@ jobs:
         continue-on-error: true
         uses: borchero/terraform-plan-comment@434458316f8f24dd073cd2561c436cce41dc8f34 # v2.4.1
         with:
-          token: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           planfile: .planfile
           terraform-cmd: tofu
           header: " Terraform Plan for infrastructure"
