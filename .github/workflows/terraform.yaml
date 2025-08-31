@@ -144,6 +144,8 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: op://K8s/ionos/AWS_ACCESS_KEY_ID
           AWS_SECRET_ACCESS_KEY: op://K8s/ionos/AWS_SECRET_ACCESS_KEY
+          AWS_BUCKET_NAME: "ionos202030"
+          AWS_BUCKET_KEY_NAME: "terraform.tfstate"
 
       - name: Tofu Validate
         id: validate
