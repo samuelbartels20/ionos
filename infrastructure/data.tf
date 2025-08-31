@@ -3,6 +3,6 @@ data "onepassword_vault" "vault" {
 }
 
 data "onepassword_item" "item" {
-  vault = data.onepassword_vault.vault.id
+  vault = data.onepassword_vault.vault.name
   title = var.item
 }
