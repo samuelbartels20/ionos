@@ -24,6 +24,9 @@
     changed-terraform:
       name: Changed Terraform
       runs-on: ubuntu-latest
+      defaults:
+        run:
+          working-directory: infrastructure
       outputs:
         matrix: ${{ steps.changed-terraform.outputs.all_changed_and_modified_files }}
       steps:
