@@ -166,6 +166,7 @@ jobs:
       - name: Tofu Validate
         id: validate
         working-directory: infrastructure
+        run: tofu validate -no-color
         env:
           AWS_ACCESS_KEY_ID: op://K8s/ionos/AWS_ACCESS_KEY_ID
           AWS_SECRET_ACCESS_KEY: op://K8s/ionos/AWS_SECRET_ACCESS_KEY
@@ -173,9 +174,13 @@ jobs:
           IONOS_PASSWORD: op://K8s/ionos/IONOS_PASSWORD
           IONOS_TOKEN: op://K8s/ionos/IONOS_TOKEN
           IONOS_ENDPOINT: op://K8s/ionos/IONOS_ENDPOINT
-
-        run: tofu validate -no-color
-
+      - name: 'TFLint'
+        run: |
+          tflint --init
+          tflint
+  
+      - name: 'tfsec'
+        run: tfsec .
       - name: Tofu Plan
         working-directory: infrastructure
         env:
