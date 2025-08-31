@@ -28,7 +28,7 @@
         run:
           working-directory: infrastructure
       outputs:
-        matrix: ${{ steps.changed-terraform.outputs.all_changed_and_modified_files }}
+        matrix: ${{ steps.changed-terraform.outputs.all_changed_files_json }}
       steps:
         - name: Checkout
           uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
@@ -45,7 +45,7 @@
             matrix: true
   
         - name: List All Changed Terraform
-          run: echo ${{ steps.changed-terraform.outputs.all_changed_and_modified_files }}
+          run: echo "${{ steps.changed-terraform.outputs.all_changed_files_json }}"
   
     sync:
       name: Terraform Diff
