@@ -49,7 +49,7 @@
   
     sync:
       name: Terraform Diff
-      runs-on: [ubuntu-latest] 
+      runs-on: ubuntu-latest
       needs: ["changed-terraform"]
       if: ${{ needs.changed-terraform.outputs.matrix != '[]' && needs.changed-terraform.outputs.matrix != '' }}
       strategy:
@@ -132,3 +132,4 @@
             terraform-cmd: tofu
             header: " Terraform Plan for ${{ matrix.paths }}"
             working-directory: ${{ matrix.paths }}
+  
