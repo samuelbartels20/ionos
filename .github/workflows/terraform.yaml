@@ -133,7 +133,10 @@ jobs:
         run: |
           tofu init \
             -backend-config="access_key=$AWS_ACCESS_KEY_ID" \
-            -backend-config="secret_key=$AWS_SECRET_ACCESS_KEY"
+            -backend-config="secret_key=$AWS_SECRET_ACCESS_KEY" \
+            -backend-config="bucket=${AWS_BUCKET_NAME}" \
+            -backend-config="key=${{env.AWS_BUCKET_KEY_NAME}}" \
+            -backend-config="region=${{env.AWS_REGION}}"
           AWS_ACCESS_KEY_ID: ${{ env.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ env.AWS_SECRET_ACCESS_KEY }}
           AWS_ACCESS_KEY_ID: op://K8s/ionos/AWS_ACCESS_KEY_ID
