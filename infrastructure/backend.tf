@@ -1,6 +1,6 @@
 terraform {
   backend "s3" {
-    bucket                      = "ionos202030"
+    bucket                      = "my-terraform-state-bucket-ankah-2025"
     key                         = "terraform.tfstate"
     region                      = "us-east-1"
     skip_credentials_validation = true
