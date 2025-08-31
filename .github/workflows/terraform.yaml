@@ -116,6 +116,17 @@ jobs:
           aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1  
 
+
+      - name: Debug AWS credentials
+        run: |
+            echo "AWS_ACCESS_KEY_ID length: ${AWS_ACCESS_KEY_ID}"
+            echo "AWS_SECRET_ACCESS_KEY length: ${AWS_SECRET_ACCESS_KEY}"
+            echo "AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION"
+        env:
+            AWS_ACCESS_KEY_ID: ${{ env.AWS_ACCESS_KEY_ID }}
+            AWS_SECRET_ACCESS_KEY: ${{ env.AWS_SECRET_ACCESS_KEY }}
+            AWS_DEFAULT_REGION: ${{ env.AWS_DEFAULT_REGION }}
+
       - name: Tofu Init
         id: init
         working-directory: infrastructure
