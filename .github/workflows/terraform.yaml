@@ -110,10 +110,13 @@ jobs:
           TF_VAR_IONOS_ENDPOINT: op://K8s/ionos/IONOS_ENDPOINT
 
           AWS_SECRET_ACCESS_KEY: ${{ env.AWS_SECRET_ACCESS_KEY }}
+          AWS_ACCESS_KEY_ID: ${{ env.AWS_ACCESS_KEY_ID }}
         run: |
           tofu init \
             -backend-config="access_key=$TF_VAR_AWS_ACCESS_KEY_ID" \
             -backend-config="secret_key=$TF_VAR_AWS_SECRET_ACCESS_KEY"
+          AWS_ACCESS_KEY_ID: ${{ env.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ env.AWS_SECRET_ACCESS_KEY }}
 
       - name: Tofu Validate
         id: validate
@@ -126,6 +129,9 @@ jobs:
           TF_VAR_IONOS_TOKEN: op://K8s/ionos/IONOS_TOKEN
           TF_VAR_IONOS_ENDPOINT: op://K8s/ionos/IONOS_ENDPOINT
 
+          AWS_ACCESS_KEY_ID: ${{ env.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ env.AWS_SECRET_ACCESS_KEY }}
+
         run: tofu validate -no-color
 
       - name: Tofu Plan
@@ -137,6 +143,9 @@ jobs:
           TF_VAR_IONOS_PASSWORD: op://K8s/ionos/IONOS_PASSWORD
           TF_VAR_IONOS_TOKEN: op://K8s/ionos/IONOS_TOKEN
           TF_VAR_IONOS_ENDPOINT: op://K8s/ionos/IONOS_ENDPOINT
+
+          AWS_ACCESS_KEY_ID: ${{ env.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ env.AWS_SECRET_ACCESS_KEY }}
 
         run: tofu plan -lock=false -out .planfile | grep -v "Refreshing state...\|Reading...\|Read complete after"
 
