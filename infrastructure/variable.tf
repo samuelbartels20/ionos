@@ -116,7 +116,7 @@ variable "app_nodepool_storage_size" {
 }
 
 # 1password
-variable "op_connect_service_account_token" {
+variable "op_service_account_token" {
   type        = string
   description = "1Password service account token"
   sensitive   = true
