@@ -51,6 +51,7 @@
       name: Terraform Diff
       runs-on: [ubuntu-latest] 
       needs: ["changed-terraform"]
+      if: ${{ needs.changed-terraform.outputs.matrix != '[]' && needs.changed-terraform.outputs.matrix != '' }}
       strategy:
         matrix:
           paths: ${{ fromJSON(needs.changed-terraform.outputs.matrix) }}
