@@ -176,6 +176,11 @@ jobs:
         working-directory: infrastructure
         run: tofu plan -lock=false -out .planfile | grep -v "Refreshing state...\|Reading...\|Read complete after"
 
+      - name: Tofu Apply
+        id: apply
+        working-directory: infrastructure
+        run: tofu apply -auto-approve
+
       - name: Post PR comment
         continue-on-error: false
         uses: borchero/terraform-plan-comment@434458316f8f24dd073cd2561c436cce41dc8f34 # v2.4.1
@@ -185,3 +190,4 @@ jobs:
           terraform-cmd: tofu
           header: " Terraform Plan for infrastructure"
           working-directory: infrastructure
+
