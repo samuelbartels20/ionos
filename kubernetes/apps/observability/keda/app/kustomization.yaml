@@ -1,0 +1,27 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: observability
+resources:
+  - ./helmrelease.yaml
+  - ./networkpolicy.yaml
+  - ./hpa.yaml
+  - ./velero-backup.yaml
+  - ./pod-security-policy.yaml
+  - ./networkpolicy-metrics-apiserver.yaml
+  - ./certificate.yaml
+  - ./pdb-operator.yaml
+  - ./pdb-metrics-apiserver.yaml
+  - ./pdb-webhooks.yaml
+  - ./triviascan.yaml
+  - ./slo.yaml
+  - ./audit-policy.yaml
+commonLabels:
+  app.kubernetes.io/name: keda
+  app.kubernetes.io/instance: keda
+  app.kubernetes.io/part-of: keda
+  app.kubernetes.io/managed-by: flux
+  app.kubernetes.io/created-by: flux
+  app.kubernetes.io/version: "2.17.2"
+  app.kubernetes.io/component: autoscaler

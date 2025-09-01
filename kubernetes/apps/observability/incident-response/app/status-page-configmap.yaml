@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: status-page-config
+  namespace: observability
+data:
+  config.yaml: |
+    services:
+      - name: "Platform Services"
+        description: "Core platform services"
+        components:
+          - name: "API Gateway"
+            description: "API routing and management"
+          - name: "Authentication"
+            description: "User authentication service"
+          - name: "Database"
+            description: "Data storage service"
+          - name: "Cache"
+            description: "Data caching service"
+          - name: "Monitoring"
+            description: "System monitoring service"
+  status-updater.py: |
+    #!/usr/bin/env python3
+    # placeholder script; replace with real status-updater implementation
+    print("status-updater placeholder") 
