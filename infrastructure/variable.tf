@@ -157,10 +157,3 @@ variable "ionos_endpoint" {
   description = "Ionos API endpoint"
   type        = string
 }
-
-
-variable "op_service_account_token" {
-  description = "1Password service account token"
-  type        = string
-  sensitive   = true
-}
