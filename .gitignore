@@ -40,6 +40,12 @@ flux_deploy_key.pub
 .DS_Store
 Thumbs.db
 
+# Ignore SSH keys and secrets
+*.key
+*.pem
+flux_deploy_key
+github-deploy-key
+
 
 # Secrets
 *.pub
