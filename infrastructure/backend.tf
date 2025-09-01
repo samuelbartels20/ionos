@@ -1,18 +1,24 @@
 terraform {
   backend "s3" {
-    bucket                      = "my-terraform-state-bucket-ankah-2025"
+    bucket                      = "ionos202030"
     key                         = "terraform.tfstate"
     region                      = "us-east-1"
     skip_credentials_validation = true
   }
 }
 
+module "onepassword_ionos" {
+  source = "github.com/joryirving/terraform-1password-item"
+  vault  = data.onepassword_vault.K8s.name
+  item   = "ionos"
+}
+
 # Configure the IONOS Cloud Provider
 provider "ionoscloud" {
-  username = var.ionos_username
-  password = var.ionos_password
-  endpoint = var.ionos_endpoint
-  token    = var.ionos_token
+  username = module.onepassword_ionos.fields["IONOS_USERNAME"]
+  password = module.onepassword_ionos.fields["IONOS_PASSWORD"]
+  endpoint = module.onepassword_ionos.fields["IONOS_ENDPOINT"]
+  token    = module.onepassword_ionos.fields["IONOS_TOKEN"]
 }
 
 provider "onepassword" {

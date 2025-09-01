@@ -1,9 +1,9 @@
-# data "onepassword_vault" "vault" {
-#   name = var.vault
-# }
+data "onepassword_vault" "K8s" {
+  name = "K8s"
+}
 
-# data "onepassword_item" "item" {
-#   vault = data.onepassword_vault.vault.name
-#   title = var.item
-# }
+data "onepassword_item" "item" {
+  vault = data.onepassword_vault.K8s.name
+  title = "ionos"
+}
 
