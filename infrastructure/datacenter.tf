@@ -29,7 +29,7 @@ resource "ionoscloud_lan" "k8s-private-lan" {
 
 resource "ionoscloud_ipblock" "k8s-ipblock" {
   location   = var.datacenter_location
-  size       = 3
+  size       = var.ipblock_size
   name       = "ipblock"
   depends_on = [ionoscloud_datacenter.k8s-datacenter]
 }
