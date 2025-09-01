@@ -25,8 +25,8 @@ terraform.rc
 *.decrypted~*.yaml
 /age.key
 /cloudflare-tunnel.json
-/github-deploy.key
-/github-deploy.key.pub
+/github-deploy_key.key  
+/github-deploy_key.key.pub
 /github-push-token.txt
 # Kubernetes
 kubeconfig
