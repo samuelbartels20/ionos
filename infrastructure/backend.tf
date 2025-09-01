@@ -8,7 +8,7 @@ terraform {
 }
 
 module "onepassword_ionos" {
-  source = "github.com/joryirving/terraform-1password-item"
+  source = "github.com/joryirving/terraform-1password-item?ref=0ed20b7"
   vault  = data.onepassword_vault.K8s.name
   item   = "ionos"
 }
