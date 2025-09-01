@@ -45,12 +45,12 @@ jobs:
         uses: 1password/load-secrets-action/configure@v2
         with:
           service-account-token: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
+          
       - name: Get Secrets
         id: load-secrets
         uses: 1password/load-secrets-action@v3
         with:
           export-env: true
-
         env:
           OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
           AWS_ACCESS_KEY_ID: op://K8s/ionos/AWS_ACCESS_KEY_ID
@@ -66,10 +66,9 @@ jobs:
           echo "IONOS_PASSWORD: $IONOS_PASSWORD"
           echo "IONOS_TOKEN: $IONOS_TOKEN"
           echo "IONOS_ENDPOINT: $IONOS_ENDPOINT"
-          echo "AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID"
-          echo "AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY"
+          echo "AWS_ACCESS_KEY_ID length: ${#AWS_ACCESS_KEY_ID}"
+          echo "AWS_SECRET_ACCESS_KEY length: ${#AWS_SECRET_ACCESS_KEY}"
           echo "AWS_REGION: $AWS_REGION"
-
 
       - name: Verify Secrets Loaded
         run: |
@@ -115,17 +114,11 @@ jobs:
             mv tfsec /usr/local/bin/
             tfsec --version
 
-
       - name: Tofu fmt
         id: fmt
         working-directory: infrastructure
         run: |
           tofu fmt -recursive
-          # if [[ -n $(git status --porcelain) ]]; then
-          #   echo "Files were formatted. Please commit the changes."
-          #   git diff
-          #   exit 1
-          # fi
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -134,16 +127,13 @@ jobs:
           aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1  
 
-
       - name: Debug AWS credentials
         run: |
-            echo "AWS_ACCESS_KEY_ID length: ${AWS_ACCESS_KEY_ID}"
-            echo "AWS_SECRET_ACCESS_KEY length: ${AWS_SECRET_ACCESS_KEY}"
+            echo "AWS_ACCESS_KEY_ID length: ${#AWS_ACCESS_KEY_ID}"
+            echo "AWS_SECRET_ACCESS_KEY length: ${#AWS_SECRET_ACCESS_KEY}"
             echo "AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION"
-        env:
-            AWS_ACCESS_KEY_ID: ${{ env.AWS_ACCESS_KEY_ID }}
-            AWS_SECRET_ACCESS_KEY: ${{ env.AWS_SECRET_ACCESS_KEY }}
-            AWS_DEFAULT_REGION: ${{ env.AWS_DEFAULT_REGION }}
+            # Test AWS connectivity
+            aws sts get-caller-identity
 
       - name: Tofu Init
         id: init
@@ -152,38 +142,28 @@ jobs:
           tofu init \
             -backend-config="access_key=$AWS_ACCESS_KEY_ID" \
             -backend-config="secret_key=$AWS_SECRET_ACCESS_KEY" \
-            -backend-config="bucket=${AWS_BUCKET_NAME}" \
-            -backend-config="key=${{env.AWS_BUCKET_KEY_NAME}}" \
-            -backend-config="region=${{env.AWS_REGION}}"
-          AWS_ACCESS_KEY_ID: ${{ env.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ env.AWS_SECRET_ACCESS_KEY }}
-          AWS_ACCESS_KEY_ID: op://K8s/ionos/AWS_ACCESS_KEY_ID
-          AWS_SECRET_ACCESS_KEY: op://K8s/ionos/AWS_SECRET_ACCESS_KEY
+            -backend-config="bucket=$AWS_BUCKET_NAME" \
+            -backend-config="key=$AWS_BUCKET_KEY_NAME" \
+            -backend-config="region=$AWS_REGION"
         env:
-          AWS_ACCESS_KEY_ID: op://K8s/ionos/AWS_ACCESS_KEY_ID
-          AWS_SECRET_ACCESS_KEY: op://K8s/ionos/AWS_SECRET_ACCESS_KEY
           AWS_BUCKET_NAME: "ionos202030"
           AWS_BUCKET_KEY_NAME: "terraform.tfstate"
+
       - name: Create OpenTofu Workspace
         id: workspace
         working-directory: infrastructure
         run: |
-              # Create workspace if it doesn't exist
-                tofu workspace select ${{ env.WORKSPACE_NAME }} || tofu workspace new ${{ env.WORKSPACE_NAME }}
-                echo "Current workspace: $(tofu workspace show)"
+          # Create workspace if it doesn't exist
+          tofu workspace select ${{ env.WORKSPACE_NAME }} || tofu workspace new ${{ env.WORKSPACE_NAME }}
+          echo "Current workspace: $(tofu workspace show)"
         env:
-              WORKSPACE_NAME: ${{ github.ref_name == 'main' && 'production' || format('feature-{0}', github.ref_name) }}
+          WORKSPACE_NAME: ${{ github.ref_name == 'main' && 'production' || format('feature-{0}', github.ref_name) }}
+
       - name: Tofu Validate
         id: validate
         working-directory: infrastructure
         run: tofu validate -no-color
-        env:
-          AWS_ACCESS_KEY_ID: op://K8s/ionos/AWS_ACCESS_KEY_ID
-          AWS_SECRET_ACCESS_KEY: op://K8s/ionos/AWS_SECRET_ACCESS_KEY
-          IONOS_USERNAME: op://K8s/ionos/IONOS_USERNAME
-          IONOS_PASSWORD: op://K8s/ionos/IONOS_PASSWORD
-          IONOS_TOKEN: op://K8s/ionos/IONOS_TOKEN
-          IONOS_ENDPOINT: op://K8s/ionos/IONOS_ENDPOINT
+
       - name: 'TFLint'
         run: |
           tflint --init
@@ -191,23 +171,9 @@ jobs:
   
       - name: 'tfsec'
         run: tfsec .
+
       - name: Tofu Plan
         working-directory: infrastructure
-        env:
-          OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
-          TF_VAR_AWS_ACCESS_KEY_ID: op://K8s/ionos/AWS_ACCESS_KEY_ID  
-          TF_VAR_AWS_SECRET_ACCESS_KEY: op://K8s/ionos/AWS_SECRET_ACCESS_KEY
-          TF_VAR_IONOS_USERNAME: op://K8s/ionos/IONOS_USERNAME
-          TF_VAR_IONOS_PASSWORD: op://K8s/ionos/IONOS_PASSWORD
-          TF_VAR_IONOS_TOKEN: op://K8s/ionos/IONOS_TOKEN
-          TF_VAR_IONOS_ENDPOINT: op://K8s/ionos/IONOS_ENDPOINT
-          AWS_ACCESS_KEY_ID: op://K8s/ionos/AWS_ACCESS_KEY_ID
-          AWS_SECRET_ACCESS_KEY: op://K8s/ionos/AWS_SECRET_ACCESS_KEY
-          IONOS_USERNAME: op://K8s/ionos/IONOS_USERNAME
-          IONOS_PASSWORD: op://K8s/ionos/IONOS_PASSWORD
-          IONOS_TOKEN: op://K8s/ionos/IONOS_TOKEN
-          IONOS_ENDPOINT: op://K8s/ionos/IONOS_ENDPOINT
-
         run: tofu plan -lock=false -out .planfile | grep -v "Refreshing state...\|Reading...\|Read complete after"
 
       - name: Post PR comment
