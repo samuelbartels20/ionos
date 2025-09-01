@@ -110,3 +110,9 @@ variable "app_nodepool_storage_size" {
   default     = 100
 }
 
+
+# AWS
+variable "region" {
+  description = "AWS region"
+  type        = string
+}

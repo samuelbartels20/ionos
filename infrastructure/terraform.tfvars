@@ -18,3 +18,5 @@ maintenance_day       = "Sunday"
 maintenance_time      = "10:00:00"
 api_subnet_allow_list = ["0.0.0.0/0"]
 
+region = "us-east-1"
+

@@ -2,7 +2,7 @@ terraform {
   backend "s3" {
     bucket                      = "ionos202030"
     key                         = "terraform.tfstate"
-    region                      = "us-east-1"
+    region                      = var.region
     skip_credentials_validation = true
   }
 }
@@ -25,5 +25,5 @@ provider "onepassword" {
 }
 
 provider "aws" {
-  region = "us-east-1"
+  region = var.region
 }
