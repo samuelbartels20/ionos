@@ -47,6 +47,14 @@ Thumbs.db
 /github-deploy.key
 /github-deploy.key.pub
 /github-push-token.txt
+/sops.key
+/sops.key.pub
+/sops.key.pub.decrypted~*.yaml
+/sops.key.pub.decrypted~*.yaml
+github-deploy.key
+github-deploy.key.pub
+github-push-token.txt
+
 # Template config files
 /cluster.yaml
 /nodes.yaml
