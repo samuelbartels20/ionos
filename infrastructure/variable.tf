@@ -136,26 +136,25 @@ variable "op_service_account_token" {
 
 # IONOS
 variable "ionos_username" {
-  description = "IONOS username"
+  description = "Ionos username"
   type        = string
   sensitive   = true
 }
 
 variable "ionos_password" {
-  description = "IONOS password"
+  description = "Ionos password"
+  type        = string
+  sensitive   = true
+}
+
+variable "ionos_token" {
+  description = "Ionos API token"
   type        = string
   sensitive   = true
 }
 
 variable "ionos_endpoint" {
-  description = "IONOS endpoint"
+  description = "Ionos API endpoint"
   type        = string
-}
-
-
-variable "ionos_token" {
-  description = "IONOS token"
-  type        = string
-  sensitive   = true
 }
 
