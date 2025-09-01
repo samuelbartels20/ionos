@@ -1,6 +1,6 @@
 ---
 creation_rules:
-  - path_regex: ionos/.*\.sops\.ya?ml
+  - path_regex: .*\.sops\.ya?ml
     mac_only_encrypted: true
     age: "age1pn9yaaq087hehhytd4kkjptah8zay6e3xehahzdl06h7rrx9kp5qj3z4wy"
   - path_regex: (bootstrap|kubernetes)/.*\.sops\.ya?ml
