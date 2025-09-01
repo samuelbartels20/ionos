@@ -54,6 +54,7 @@ Thumbs.db
 github-deploy.key
 github-deploy.key.pub
 github-push-token.txt
+age.agekey
 
 # Template config files
 /cluster.yaml
