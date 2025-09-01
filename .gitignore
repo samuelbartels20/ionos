@@ -3,7 +3,7 @@
 
 *.tfstate
 *.tfstate.*
-flux_deploy_key
+flux_deploy_key.key
 crash.log
 crash.*.log
 
