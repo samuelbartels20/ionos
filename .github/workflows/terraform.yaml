@@ -120,7 +120,7 @@ jobs:
         id: fmt
         working-directory: infrastructure
         run: |
-          tofu fmt
+          tofu fmt -recursive
           if [[ -n $(git status --porcelain) ]]; then
             echo "Files were formatted. Please commit the changes."
             git diff
