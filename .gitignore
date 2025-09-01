@@ -55,7 +55,7 @@ github-deploy.key
 github-deploy.key.pub
 github-push-token.txt
 age.agekey
-
+bootstrap/github-deploy-key.sops.yaml
 # Template config files
 /cluster.yaml
 /nodes.yaml
