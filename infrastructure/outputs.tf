@@ -70,29 +70,29 @@ output "kubeconfig_path" {
 }
 
 # 1Password
-output "fields" {
-  description = "A map of all fields that are available in the 1Password Item"
-  sensitive   = true
-  value = merge(
-    {
-      username              = data.onepassword_item.item.ionos_username
-      password              = data.onepassword_item.item.ionos_password
-      endpoint              = data.onepassword_item.item.ionos_endpoint
-      token                 = data.onepassword_item.item.ionos_token
-      access_key_id         = data.onepassword_item.item.aws_access_key_id
-      secret_access_key     = data.onepassword_item.item.aws_secret_access_key
-      service_account_token = data.onepassword_item.item.op_connect_service_account_token
-    },
-    merge([
-      for section in data.onepassword_item.item.section : merge([
-        for field in section.field :
-        {
-          "${field.label}" = field.type == "CONCEALED" ? sensitive(field.value) : field.value
-        }
-      ]...)
-    ]...)
-  )
-}
+# output "fields" {
+#   description = "A map of all fields that are available in the 1Password Item"
+#   sensitive   = true
+#   value = merge(
+#     {
+#       username              = data.onepassword_item.item.ionos_username
+#       password              = data.onepassword_item.item.ionos_password
+#       endpoint              = data.onepassword_item.item.ionos_endpoint
+#       token                 = data.onepassword_item.item.ionos_token
+#       access_key_id         = data.onepassword_item.item.aws_access_key_id
+#       secret_access_key     = data.onepassword_item.item.aws_secret_access_key
+#       service_account_token = data.onepassword_item.item.op_connect_service_account_token
+#     },
+#     merge([
+#       for section in data.onepassword_item.item.section : merge([
+#         for field in section.field :
+#         {
+#           "${field.label}" = field.type == "CONCEALED" ? sensitive(field.value) : field.value
+#         }
+#       ]...)
+#     ]...)
+#   )
+# }
 
 
 
