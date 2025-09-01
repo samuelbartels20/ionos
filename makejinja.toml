@@ -2,7 +2,6 @@
 inputs = ["./templates/overrides","./templates/config"]
 output = "./"
 exclude_patterns = ["*.partial.yaml.j2"]
-data = ["./cluster.yaml", "./nodes.yaml"]
 import_paths = ["./templates/scripts"]
 loaders = ["plugin:Plugin"]
 jinja_suffix = ".j2"
