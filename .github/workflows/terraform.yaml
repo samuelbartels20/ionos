@@ -114,6 +114,16 @@ jobs:
             chmod +x tfsec
             mv tfsec /usr/local/bin/
             tfsec --version
+
+      - name: Create OpenTofu Workspace
+        id: workspace
+        working-directory: infrastructure
+        run: |
+            # Create workspace if it doesn't exist
+              tofu workspace select ${{ env.WORKSPACE_NAME }} || tofu workspace new ${{ env.WORKSPACE_NAME }}
+              echo "Current workspace: $(tofu workspace show)"
+        env:
+            WORKSPACE_NAME: ${{ github.ref_name == 'main' && 'production' || format('feature-{0}', github.ref_name) }}
       - name: Tofu fmt
         id: fmt
         working-directory: infrastructure
