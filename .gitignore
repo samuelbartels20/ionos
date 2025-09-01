@@ -4,6 +4,7 @@
 *.tfstate
 *.tfstate.*
 flux_deploy_key.key
+flux_deploy_key.key.pub
 crash.log
 crash.*.log
 
@@ -43,8 +44,8 @@ Thumbs.db
 # Ignore SSH keys and secrets
 *.key
 *.pem
-flux_deploy_key
-flux_deploy_key.pub
+flux_deploy_key.key
+flux_deploy_key.key.pub
 github-deploy-key
 
 
