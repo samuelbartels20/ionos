@@ -53,19 +53,61 @@ jobs:
           export-env: true
         env:
           OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
+          # AWS Credentials for backend
           AWS_ACCESS_KEY_ID: op://K8s/ionos/AWS_ACCESS_KEY_ID
           AWS_SECRET_ACCESS_KEY: op://K8s/ionos/AWS_SECRET_ACCESS_KEY
-          IONOS_USERNAME: op://K8s/ionos/IONOS_USERNAME
-          IONOS_PASSWORD: op://K8s/ionos/IONOS_PASSWORD
-          IONOS_TOKEN: op://K8s/ionos/IONOS_TOKEN
-          IONOS_ENDPOINT: op://K8s/ionos/IONOS_ENDPOINT
-        
+          # Terraform Variables for Ionos Provider
+          TF_VAR_op_service_account_token: op://K8s/ionos/OP_SERVICE_ACCOUNT_TOKEN
+          TF_VAR_ionos_username: op://K8s/ionos/IONOS_USERNAME
+          TF_VAR_ionos_password: op://K8s/ionos/IONOS_PASSWORD
+          TF_VAR_ionos_token: op://K8s/ionos/IONOS_TOKEN
+          TF_VAR_ionos_endpoint: op://K8s/ionos/IONOS_ENDPOINT
+
+
+      - name: Create Terraform Variables File
+        working-directory: infrastructure
+        run: |
+            cat > terraform.tfvars <<EOF
+            op_service_account_token = "$OP_SERVICE_ACCOUNT_TOKEN"
+            ionos_username = "$IONOS_USERNAME"
+            ionos_password = "$IONOS_PASSWORD"
+            ionos_token = "$IONOS_TOKEN"
+            ionos_endpoint = "$IONOS_ENDPOINT"
+            EOF
+            echo "Created terraform.tfvars file"
+        shell: bash
+
+      - name: Verify Variables File
+        working-directory: infrastructure
+        run: |
+          echo "Contents of terraform.tfvars (values masked):"
+          sed 's/=.*/= "***"/' terraform.tfvars
+        shell: bash
+      - name: Verify Terraform Variables
+        run: |
+            echo "Checking if TF_VAR variables are set..."
+            if [ -z "$TF_VAR_ionos_username" ]; then
+              echo "ERROR: TF_VAR_ionos_username is empty"
+              exit 1
+            fi
+            if [ -z "$TF_VAR_ionos_password" ]; then
+              echo "ERROR: TF_VAR_ionos_password is empty"
+              exit 1
+            fi
+            if [ -z "$TF_VAR_ionos_token" ]; then
+              echo "ERROR: TF_VAR_ionos_token is empty"
+              exit 1
+            fi
+            if [ -z "$TF_VAR_ionos_endpoint" ]; then
+              echo "ERROR: TF_VAR_ionos_endpoint is empty"
+              exit 1
+            fi
+            echo "All Terraform variables are set!"
+        shell: bash
       - name: Print environment variables with masked secrets
         run: |
-          echo "IONOS_USERNAME: $IONOS_USERNAME"
-          echo "IONOS_PASSWORD: $IONOS_PASSWORD"
-          echo "IONOS_TOKEN: $IONOS_TOKEN"
-          echo "IONOS_ENDPOINT: $IONOS_ENDPOINT"
+          echo "TF_VAR_ionos_username: $TF_VAR_ionos_username"
+          echo "TF_VAR_ionos_endpoint: $TF_VAR_ionos_endpoint"
           echo "AWS_ACCESS_KEY_ID length: ${#AWS_ACCESS_KEY_ID}"
           echo "AWS_SECRET_ACCESS_KEY length: ${#AWS_SECRET_ACCESS_KEY}"
           echo "AWS_REGION: $AWS_REGION"
@@ -73,8 +115,8 @@ jobs:
       - name: Verify Secrets Loaded
         run: |
           echo "Checking if secrets were loaded successfully..."
-          if [ -z "$IONOS_USERNAME" ]; then
-            echo "ERROR: IONOS_USERNAME is empty"
+          if [ -z "$TF_VAR_ionos_username" ]; then
+            echo "ERROR: TF_VAR_ionos_username is empty"
             exit 1
           fi
           if [ -z "$AWS_ACCESS_KEY_ID" ]; then
@@ -85,15 +127,15 @@ jobs:
             echo "ERROR: AWS_SECRET_ACCESS_KEY is empty"
             exit 1
           fi
-          if [ -z "$IONOS_PASSWORD" ]; then
-            echo "ERROR: IONOS_PASSWORD is empty"
+          if [ -z "$TF_VAR_ionos_password" ]; then
+            echo "ERROR: TF_VAR_ionos_password is empty"
             exit 1
           fi
-          if [ -z "$IONOS_TOKEN" ]; then
-            echo "ERROR: IONOS_TOKEN is empty"
+          if [ -z "$TF_VAR_ionos_token" ]; then
+            echo "ERROR: TF_VAR_ionos_token is empty"
             exit 1
           fi
-          echo "Secrets loaded successfully!"
+          echo "All secrets loaded successfully!"
         shell: bash
 
       - name: Install Opentofu
@@ -174,7 +216,13 @@ jobs:
 
       - name: Tofu Plan
         working-directory: infrastructure
-        run: tofu plan -lock=false -out .planfile | grep -v "Refreshing state...\|Reading...\|Read complete after"
+        run: |
+          tofu plan -var-file="terraform.tfvars" -lock=false -out .planfile
+          echo "Planning infrastructure with Ionos provider..."
+          tofu plan -lock=false -out .planfile | grep -v "Refreshing state...\|Reading...\|Read complete after"
+          echo "Planning infrastructure with Ionos provider..."
+          echo "Available TF_VAR variables:"
+          env | grep TF_VAR_ | cut -d= -f1
 
       - name: Post PR comment
         continue-on-error: false
