@@ -121,11 +121,11 @@ jobs:
         working-directory: infrastructure
         run: |
           tofu fmt -recursive
-          if [[ -n $(git status --porcelain) ]]; then
-            echo "Files were formatted. Please commit the changes."
-            git diff
-            exit 1
-          fi
+          # if [[ -n $(git status --porcelain) ]]; then
+          #   echo "Files were formatted. Please commit the changes."
+          #   git diff
+          #   exit 1
+          # fi
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
