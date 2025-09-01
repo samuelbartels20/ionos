@@ -22,11 +22,6 @@ variable "datacenter_location" {
   }
 }
 
-# Project
-variable "project_name" {
-  description = "Name of the IONOS project"
-  type        = string
-}
 
 # IP Block
 variable "ipblock_size" {

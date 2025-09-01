@@ -1,7 +1,7 @@
 
 datacenter_name     = "k8s-datacenter"
 datacenter_location = "de/fra"
-project_name        = "k8s-project"
+
 ipblock_size        = 3
 
 app_nodepool_min_nodes    = 3

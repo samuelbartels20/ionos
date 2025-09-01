@@ -1,7 +1,7 @@
 resource "ionoscloud_datacenter" "k8s-datacenter" {
   name        = var.datacenter_name
   location    = var.datacenter_location
-  description = "Production Kubernetes infrastructure for ${var.project_name}"
+  description = "Production Kubernetes infrastructure for k8s-ionos"
 
   timeouts {
     create = "30m"
