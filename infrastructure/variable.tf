@@ -122,17 +122,17 @@ variable "op_service_account_token" {
   sensitive   = true
 }
 
-variable "vault" {
-  description = "Vault name to find the Item in"
-  type        = string
-  default     = "K8s"
-}
+# variable "vault" {
+#   description = "Vault name to find the Item in"
+#   type        = string
+#   default     = "K8s"
+# }
 
-variable "item" {
-  description = "Password Item to fetch"
-  type        = string
-  default     = "ionos"
-}
+# variable "item" {
+#   description = "Password Item to fetch"
+#   type        = string
+#   default     = "ionos"
+# }
 
 # IONOS
 variable "ionos_username" {
