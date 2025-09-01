@@ -37,20 +37,3 @@ releases:
     version: 0.27.0
     values: ['../kubernetes/apps/flux-system/flux-instance/app/helm/values.yaml']
     needs: ['flux-system/flux-operator']
-
-
-  - name: metrics-server
-    namespace: kube-system
-    atomic: true
-    chart: oci://ghcr.io/home-operations/charts-mirror/metrics-server
-    version: 3.13.0
-    values: ['../kubernetes/apps/kube-system/metrics-server/ks.yaml']
-    needs: ['flux-system/flux-instance']
-
-  - name: reloader
-    namespace: kube-system
-    atomic: true
-    chart: oci://ghcr.io/stakater/charts/reloader
-    version: 2.2.2
-    values: ['../kubernetes/apps/kube-system/reloader/ks.yaml']
-    needs: ['kube-system/metrics-server']

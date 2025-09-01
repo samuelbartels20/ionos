@@ -30,6 +30,9 @@ terraform.rc
 # Kubernetes
 kubeconfig
 ionosconfig
+age.ageKey
+flux_deplo_key
+flux_deploy_key.pub
 # Misc.
 .private/
 .task/
@@ -56,6 +59,8 @@ github-deploy.key.pub
 github-push-token.txt
 age.agekey
 bootstrap/github-deploy-key.sops.yaml
+flux_deploy_key.sops.yaml
+flux_deploy_key.sops.yaml.pub
 
 # Kubernetes
 kubeconfig
