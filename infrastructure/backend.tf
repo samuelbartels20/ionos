@@ -9,10 +9,10 @@ terraform {
 
 # Configure the IONOS Cloud Provider
 provider "ionoscloud" {
-  username = data.onepassword_item.item.ionos_username
-  password = data.onepassword_item.item.ionos_password
-  endpoint = data.onepassword_item.item.ionos_endpoint
-  token    = data.onepassword_item.item.ionos_token
+  username = var.ionos_username
+  password = var.ionos_password
+  endpoint = var.ionos_endpoint
+  token    = var.ionos_token
 }
 
 provider "onepassword" {

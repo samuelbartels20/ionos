@@ -145,6 +145,28 @@ variable "aws_secret_access_key" {
   sensitive   = true
 }
 
+# IONOS
+variable "ionos_username" {
+  description = "IONOS username"
+  type        = string
+  sensitive   = true
+}
+
+variable "ionos_password" {
+  description = "IONOS password"
+  type        = string
+  sensitive   = true
+}
+
+variable "ionos_endpoint" {
+  description = "IONOS endpoint"
+  type        = string
+}
 
 
+variable "ionos_token" {
+  description = "IONOS token"
+  type        = string
+  sensitive   = true
+}
 
