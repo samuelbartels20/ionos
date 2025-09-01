@@ -22,7 +22,6 @@ provider "ionoscloud" {
 }
 
 provider "onepassword" {
-  service_account_token = module.onepassword_ionos.fields["OP_SERVICE_ACCOUNT_TOKEN"]
 }
 
 provider "aws" {
