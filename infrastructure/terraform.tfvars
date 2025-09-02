@@ -9,7 +9,7 @@ app_nodepool_max_nodes    = 5
 app_nodepool_node_count   = 3
 app_nodepool_cpu_family   = "INTEL_SKYLAKE"
 app_nodepool_cores        = 4
-app_nodepool_ram          = 4096
+app_nodepool_ram          = 16384
 app_nodepool_storage_size = 100
 
 cluster_name          = "ionos-k8s-production"
