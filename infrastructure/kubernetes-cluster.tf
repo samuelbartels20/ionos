@@ -64,8 +64,6 @@ resource "ionoscloud_k8s_node_pool" "application" {
   depends_on = [ionoscloud_k8s_cluster.k8s-cluster]
 }
 
-
-
 resource "local_file" "kubeconfig" {
   # Use ionos CLI to get kubeconfig: ionosctl k8s kubeconfig get --cluster-id <cluster-id>
   content = "# Kubeconfig will be generated after cluster creation\n# Run: ionosctl k8s kubeconfig get --cluster-id ${ionoscloud_k8s_cluster.k8s-cluster.id} > kubeconfig\n"
