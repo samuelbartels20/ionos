@@ -6,8 +6,8 @@ namespace: kube-system
 
 resources:
   - helmrelease.yaml
-  # - prometheusrule.yaml
-  # - poddisruptionbudget.yaml
+  - prometheusrule.yaml
+  - poddisruptionbudget.yaml
 
 configMapGenerator:
   - name: kubelet-csr-approver-values

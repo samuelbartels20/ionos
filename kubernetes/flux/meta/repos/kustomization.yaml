@@ -6,4 +6,4 @@ resources:
   - ./external-dns.yaml
   - ./external-secrets.yaml
   - ./kube-bench.yaml
-  
+  - ./kubelet-csr-approver.yaml
