@@ -5,7 +5,7 @@ terraform {
     # IONOS Cloud Provider
     ionoscloud = {
       source  = "ionos-cloud/ionoscloud"
-      version = "~> 6.5.0"
+      version = "~> 6.7.0"
     }
 
     # Random Provider
