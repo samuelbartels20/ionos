@@ -176,10 +176,10 @@ jobs:
         working-directory: infrastructure
         run: tofu plan -lock=false -out .planfile | grep -v "Refreshing state...\|Reading...\|Read complete after"
 
-      - name: Tofu Apply
+      - name: Tofu Destroy
         id: apply
         working-directory: infrastructure
-        run: tofu apply -auto-approve
+        run: tofu destroy -auto-approve
 
       - name: Post PR comment
         continue-on-error: false
