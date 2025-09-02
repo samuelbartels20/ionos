@@ -6,7 +6,7 @@ namespace: kube-system
 
 resources:
   - ./helmrelease.yaml
-  # - ./prometheusrule.yaml
+  - ./prometheusrule.yaml
   - ./poddisruptionbudget.yaml
 
 configMapGenerator:
