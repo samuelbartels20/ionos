@@ -11,4 +11,5 @@ resources:
   - ./spegel/ks.yaml
   - ./descheduler/ks.yaml
   - ./kube-bench/ks.yaml
+  - ./kubelet-csr-approver/ks.yaml
 
