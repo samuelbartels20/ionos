@@ -10,5 +10,5 @@ resources:
   - ./reloader/ks.yaml
   - ./spegel/ks.yaml
   - ./descheduler/ks.yaml
-  - ./kube-bench/ks.yaml
+  # - ./kube-bench/ks.yaml
 
